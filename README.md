@@ -1,6 +1,6 @@
 # Microsoft Reflect messaging extension for Teams overview
 
-| [Documentation](https://github.com/Darren-Austin/Microsoft-Teams-App-Reflect/wiki) | [Deployment Guide](https://github.com/Darren-Austin/Microsoft-Teams-App-Reflect/wiki/Reflect-Deployment-Guide) | [Solution Overview](https://github.com/Darren-Austin/Microsoft-Teams-App-Reflect/wiki/Solution-Overview) |
+| [Documentation](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki) | [Deployment Guide](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Reflect-Deployment-Guide) | [Solution Overview](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Solution-Overview) |
 | ----------- | ----------- | ----------- |
 
 We thrive when we are working and learning in environments that support our emotional wellbeing. These are environments in which we feel heard, valued, safe, and included.
@@ -11,7 +11,7 @@ The Reflect messaging extension helps team members be more aware of their own, a
 
 Group leaders can check-in with their team members about how they are feeling in general, or about a specific topic, such as an assignment, the experience of learning or working from home, or current events in their community.
 
-![](https://github.com/Darren-Austin/Microsoft-Teams-App-Reflect/blob/main/Responding%20to%20a%20reflect%20poll%20method%201.png)
+![](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/blob/main/Responding%20to%20a%20reflect%20poll%20method%201.png)
 
 ### Key Features ###
 - Aligned with the lastest research and best practices for social-emotional learning, organizational psychology, and emotionally supportive environments
@@ -22,8 +22,8 @@ Group leaders can check-in with their team members about how they are feeling in
 - Professional development resources for educators available at: https://aka.ms/checking-in-with-students and https://aka.ms/remote-wellbeing
 
 # Getting Started #
-Begin with the [Solution overview](https://github.com/Darren-Austin/Microsoft-Teams-App-Reflect/wiki/Solution-Overview) to read about what the app does and how it works.
-When you're ready to try out Reflect, or to use it in your own organization, follow the steps in the [Deployment guide](https://github.com/Darren-Austin/Microsoft-Teams-App-Reflect/wiki/Reflect-Deployment-Guide).
+Begin with the [Solution overview](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Solution-Overview) to read about what the app does and how it works.
+When you're ready to try out Reflect, or to use it in your own organization, follow the steps in the [Deployment guide](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Reflect-Deployment-Guide).
 
 # Feedback #
 Thoughts? Questions? Ideas? Share them with us on [Teams UserVoice](https://microsoftteams.uservoice.com/forums/555103-public)!
