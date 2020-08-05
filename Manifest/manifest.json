@@ -1,0 +1,100 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "version": "1.0.0",
+  "id": "388a3952-5ace-44b5-bc1b-082372ad709b",
+  "packageName": "com.contoso.helloworld",
+  "developer": {
+    "name": "Contoso",
+    "websiteUrl": "https://www.microsoft.com",
+    "privacyUrl": "https://www.microsoft.com/privacy",
+    "termsOfUseUrl": "https://www.microsoft.com/termsofuse"
+  },
+  
+  "name": {
+    "short": "Reflect",
+    "full": "Reflect"
+  },
+  "description": {
+    "short": "Communication",
+    "full": "Help people be more aware of their own, and each others, emotional state during communication so they can collaborate in more meaningful ways."
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "logo.png"
+  },
+  "accentColor": "#6264A7",
+  "staticTabs": [],
+  "configurableTabs": [],
+  "bots": [
+    {
+      "botId": "388a3952-5ace-44b5-bc1b-082372ad709b",
+      "scopes": [
+        "team",
+        "groupchat",
+		"personal"
+      ]
+    }
+  ],
+  "composeExtensions": [
+    {
+      "botId": "388a3952-5ace-44b5-bc1b-082372ad709b",
+      "canUpdateConfiguration": false,
+      "commands": [
+        {
+          "id": "recurringreflections",
+          "description": "Scheduled reflections",
+          "title": "Scheduled reflections",
+          "type": "action",
+          "initialRun": false,
+          "context": [ "message" ],
+          "fetchTask": true,
+          "parameters": [
+            {
+              "name": "Name",
+              "title": "Title",
+              "description": "To Do Title"
+            }
+          ]
+        },
+        {
+          "id": "removeposts",
+          "description": "Remove posts",
+          "title": "Remove posts",
+          "type": "action",
+          "initialRun": false,
+          "context": [ "message" ],
+          "fetchTask": true,
+          "parameters": [
+            {
+              "name": "Name",
+              "title": "Title",
+              "description": "To Do Title"
+            }
+          ]
+        },
+        {
+          "id": "createreflect",
+          "description": "Create Reflect",
+          "title": "Create Reflect",
+          "type": "action",
+          "initialRun": false,
+          "context": [ "compose" ],
+          "fetchTask": true,
+          "parameters": [
+            {
+              "name": "Name",
+              "title": "Title",
+              "description": "To Do Title"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [ "*.azurewebsites.net" ]
+}
