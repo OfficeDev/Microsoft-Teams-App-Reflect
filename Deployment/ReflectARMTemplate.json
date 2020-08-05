@@ -1,0 +1,645 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "Resourcegroupname": {
+            "type": "string",
+            "metadata": {
+                "description": "The Resourcegroupname where the resources are deployed."
+            }
+        }
+    },
+   "variables":{},
+   "resources": [ 
+                             {
+            "type": "Microsoft.resources/resourceGroups",
+            "apiVersion": "2018-05-01",
+            "name": "[parameters('Resourcegroupname')]",
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-05-01",
+            "name": "Teamsdeployment",
+            "resourceGroup": "[parameters('Resourcegroupname')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.resources/resourceGroups', parameters('Resourcegroupname'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {}
+            }
+        }
+      ],
+   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+   "contentVersion": "1.0.0.0",
+   "parameters": {
+      "baseResourceName": {
+         "type": "string",
+         "minLength": 1,
+         "defaultValue" : "clinton",
+         "metadata": {
+            "description": "The base name to use for the resources that will be provisioned."
+         }
+      },
+      "botClientId": {
+         "type": "string",
+         "minLength": 36,
+         "maxLength": 36,
+         "defaultValue" : "2b14262f-3aea-4da7-a97b-5a3678c8d0cc",
+         "metadata": {
+            "description": "The client ID of the bot Azure AD app, e.g., 123e4567-e89b-12d3-a456-426655440000."
+         }
+      },
+      "botClientSecret": {
+         "type": "securestring",
+         "minLength": 1,
+         "defaultValue" : "3B_TN40U_~.ro7Pq8-5CkNzZZD4DBcvBXH",
+         "metadata": {
+            "description": "The client secret of the bot Azure AD app."
+         }
+      },
+      "customDomainOption": {
+         "type": "string",
+         "allowedValues": [
+            "Custom domain name (recommended)",
+            "Azure Front Door"
+         ],
+         "defaultValue": "Azure Front Door",
+         "metadata": {
+            "description": "How the app will be hosted on a domain that is not *.azurewebsites.net. Azure Front Door is an easy option that the template can set up automatically, but it comes with ongoing monthly costs. "
+         }
+      },
+      "appDisplayName": {
+         "type": "string",
+         "defaultValue": "Company Communicator",
+         "minLength": 1,
+         "metadata": {
+            "description": "The app (and bot) display name."
+         }
+      },
+      "appDescription": {
+         "type": "string",
+         "defaultValue": "Broadcast messages to multiple teams and people in one go",
+         "minLength": 1,
+         "metadata": {
+            "description": "The app (and bot) description."
+         }
+      },
+      "appIconUrl": {
+         "type": "string",
+         "minLength": 1,
+         "defaultValue": "https://raw.githubusercontent.com/OfficeDev/microsoft-teams-company-communicator-app/master/Manifest/color.png",
+         "metadata": {
+            "description": "The link to the icon for the app. It must resolve to a PNG file."
+         }
+      },
+      "tenantId": {
+         "type": "string",
+         "defaultValue": "[subscription().tenantId]",
+         "minLength": 1,
+         "maxLength": 36,
+         "metadata": {
+            "description": "The ID of the tenant to which the app will be deployed."
+         }
+      },
+      "hostingPlanSku": {
+         "type": "string",
+         "allowedValues": [
+            "Basic",
+            "Standard",
+            "Premium"
+         ],
+         "defaultValue": "Standard",
+         "metadata": {
+            "description": "The pricing tier for the hosting plan."
+         }
+      },
+      "hostingPlanSize": {
+         "type": "string",
+         "allowedValues": [
+            "1",
+            "2",
+            "3"
+         ],
+         "defaultValue": "1",
+         "metadata": {
+            "description": "The size of the hosting plan (small, medium, or large)."
+         }
+      },
+      "gitRepoUrl": {
+         "type": "string",
+         "metadata": {
+            "description": "The URL to the GitHub repository to deploy."
+         },
+         "defaultValue": "https://github.com/OfficeDev/microsoft-teams-company-communicator-app.git"
+      },
+      "gitBranch": {
+         "type": "string",
+         "metadata": {
+            "description": "The branch of the GitHub repository to deploy."
+         },
+         "defaultValue": "master"
+      }
+   },
+   "variables": {
+      "botName": "[parameters('baseResourceName')]",
+      "botAppName": "[parameters('baseResourceName')]",
+      "botAppDomain": "[concat(variables('botAppName'), '.azurewebsites.net')]",
+      "botAppUrl": "[concat('https://', variables('botAppDomain'))]",
+      "hostingPlanName": "[parameters('baseResourceName')]",
+      "storageAccountName": "[concat(parameters('baseResourceName'), 'storage')]",
+      "appInsightsName": "[parameters('baseResourceName')]",
+      "functionAppName": "[concat(parameters('baseResourceName'), '-function')]",
+      "serviceBusNamespaceName": "[parameters('baseResourceName')]",
+      "serviceBusSendQueueName": "company-communicator-send",
+      "serviceBusDataQueueName": "company-communicator-data",
+      "defaultSASKeyName": "RootManageSharedAccessKey",
+      "authRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('serviceBusNamespaceName'), variables('defaultSASKeyName'))]",
+      "sharedSkus": [
+         "Free",
+         "Shared"
+      ],
+      "isSharedPlan": "[contains(variables('sharedSkus'), parameters('hostingPlanSku'))]",
+      "skuFamily": "[if(equals(parameters('hostingPlanSku'), 'Shared'), 'D', take(parameters('hostingPlanSku'), 1))]",
+      "useFrontDoor": "[equals(parameters('customDomainOption'), 'Azure Front Door')]",
+      "frontDoorName": "[parameters('baseResourceName')]",
+      "frontDoorDomain": "[toLower(concat(variables('frontDoorName'), '.azurefd.net'))]"
+   },
+
+   "resources": [
+      {
+         "type": "Microsoft.Storage/storageAccounts",
+         "name": "[variables('storageAccountName')]",
+         "location" : "West US",
+         "apiVersion": "2018-02-01",
+         "kind": "Storage",
+         "sku": {
+            "name": "Standard_LRS"
+         }
+      },
+      {
+         "type": "Microsoft.Web/serverfarms",
+         "apiVersion": "2016-09-01",
+         "name": "[variables('hostingPlanName')]",
+         "location" : "West US",
+         "properties": {
+            "name": "[variables('hostingPlanName')]",
+            "hostingEnvironment": "",
+            "numberOfWorkers": 1
+         },
+         "sku": {
+            "name": "[if(variables('isSharedPlan'), concat(variables('skuFamily'), '1'), concat(variables('skuFamily'), parameters('hostingPlanSize')))]",
+            "tier": "[parameters('hostingPlanSku')]",
+            "size": "[concat(variables('skuFamily'), parameters('hostingPlanSize'))]",
+            "family": "[variables('skuFamily')]",
+            "capacity": 0
+         }
+      },
+      {
+         "apiVersion": "2016-08-01",
+         "type": "Microsoft.Web/sites",
+         "name": "[variables('botAppName')]",
+         "location" : "West US",
+         "kind": "app",
+         "properties": {
+            "name": "[variables('botAppName')]",
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+            "enabled": true,
+            "reserved": false,
+            "clientAffinityEnabled": true,
+           "clientCertEnabled": false,
+            "hostNamesDisabled": false,
+            "containerSize": 0,
+            "dailyMemoryTimeQuota": 0,
+            "httpsOnly": true,
+            "siteConfig": {
+               "alwaysOn": "[not(variables('isSharedPlan'))]",
+               "appSettings": [
+                  {
+                     "name": "PROJECT",
+                     "value": "Source/Microsoft.Teams.Apps.CompanyCommunicator/Microsoft.Teams.Apps.CompanyCommunicator.csproj"
+                  },
+                  {
+                     "name": "SITE_ROLE",
+                     "value": "app"
+                  },
+                  {
+                     "name": "AzureAd:TenantId",
+                     "value": "[parameters('tenantId')]"
+                  },
+                  {
+                     "name": "AzureAd:ClientId",
+                     "value": "[parameters('botClientId')]"
+                  },
+                  {
+                     "name": "AzureAd:ApplicationIdURI",
+                     "value": "[if(variables('useFrontDoor'), concat('api://', variables('frontDoorDomain')), '')]"
+                  },
+                  {
+                     "name": "MicrosoftAppId",
+                     "value": "[parameters('botClientId')]"
+                  },
+                  {
+                     "name": "MicrosoftAppPassword",
+                     "value": "[parameters('botClientSecret')]"
+                  },
+                  {
+                     "name": "StorageAccountConnectionString",
+                     "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')),'2015-05-01-preview').key1)]"
+                  },
+                  {
+                     "name": "ServiceBusConnection",
+                     "value": "[listkeys(variables('authRuleResourceId'), '2017-04-01').primaryConnectionString]"
+                  },
+                  {
+                     "name": "AllowedTenants",
+                     "value": "[parameters('tenantId')]"
+                  },
+                  {
+                     "name": "DisableTenantFilter",
+                     "value": "false"
+                  },
+                  {
+                     "name": "DisableAuthentication",
+                     "value": "false"
+                  },
+                  {
+                     "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                     "value": "[reference(resourceId('Microsoft.Insights/components/', variables('appInsightsName')), '2015-05-01').InstrumentationKey]"
+                  },
+                  {
+                     "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                     "value": "10.15.2"
+                  }
+               ],
+               "cors": {
+                  "supportCredentials": true,
+                  "allowedOrigins": [
+                     "[concat('https://', variables('frontDoorDomain'))]"
+                  ]
+               }
+            }
+         },
+         "dependsOn": [
+            "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+            "[resourceId('Microsoft.Insights/components', variables('appInsightsName'))]",
+            "[resourceId('Microsoft.ServiceBus/namespaces', variables('serviceBusNamespaceName'))]"
+         ],
+         "resources": [
+            {
+               "apiVersion": "2016-08-01",
+               "name": "web",
+               "type": "sourcecontrols",
+               "condition": "[not(empty(parameters('gitRepoUrl')))]",
+               "dependsOn": [
+                  "[resourceId('Microsoft.Web/sites', variables('botAppName'))]"
+               ],
+               "properties": {
+                  "RepoUrl": "[parameters('gitRepoUrl')]",
+                  "branch": "[parameters('gitBranch')]",
+                  "IsManualIntegration": true
+               }
+            }
+         ]
+      },
+      {
+         "apiVersion": "2015-05-01",
+         "name": "[variables('appInsightsName')]",
+         "type": "Microsoft.Insights/components",
+         "kind" : "teams",
+         "location" : "West US",
+         "tags": {
+            "[concat('hidden-link:', '/providers/Microsoft.Web/sites/', variables('botAppName'))]": "Resource"
+         },
+         "properties": {
+            "Application_Type": "web",
+            "Request_Source": "rest"
+         }
+      },
+      {
+         "apiVersion": "2018-07-12",
+         "name": "[variables('botName')]",
+         "type": "Microsoft.BotService/botServices",
+         "location": "global",
+         "sku": {
+            "name": "F0"
+         },
+         "kind": "sdk",
+         "properties": {
+            "displayName": "[parameters('appDisplayName')]",
+            "description": "[parameters('appDescription')]",
+            "iconUrl": "[parameters('appIconUrl')]",
+            "msaAppId": "[parameters('botClientId')]",
+            "endpoint": "[concat(variables('botAppUrl'), '/api/messages')]",
+            "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', variables('appInsightsName')), '2015-05-01').InstrumentationKey]"
+         },
+         "resources": [
+            {
+               "name": "[concat(variables('botName'), '/MsTeamsChannel')]",
+               "type": "Microsoft.BotService/botServices/channels",
+               "apiVersion": "2018-07-12",
+               "location": "global",
+               "sku": {
+                  "name": "F0"
+               },
+               "properties": {
+                  "channelName": "MsTeamsChannel",
+                  "location": "global",
+                  "properties": {
+                     "isEnabled": true
+                  }
+               },
+               "dependsOn": [
+                  "[concat('Microsoft.BotService/botServices/', variables('botName'))]"
+               ]
+            }
+         ]
+      },
+      {
+         "type": "Microsoft.ServiceBus/namespaces",
+         "apiVersion": "2017-04-01",
+         "name": "[variables('serviceBusNamespaceName')]",
+         "location" : "West US",
+         "sku": {
+            "name": "Basic",
+            "tier": "Basic"
+         },
+         "properties": {},
+         "resources": [
+            {
+               "type": "Queues",
+               "apiVersion": "2017-04-01",
+               "name": "[variables('serviceBusSendQueueName')]",
+               "dependsOn": [
+                  "[concat('Microsoft.ServiceBus/namespaces/', variables('serviceBusNamespaceName'))]"
+               ],
+               "properties": {
+                  "lockDuration": "PT5M",
+                  "maxSizeInMegabytes": 1024,
+                  "requiresDuplicateDetection": false,
+                  "requiresSession": false,
+                  "defaultMessageTimeToLive": "P14D",
+                  "deadLetteringOnMessageExpiration": false,
+                  "enableBatchedOperations": true,
+                  "duplicateDetectionHistoryTimeWindow": "PT10M",
+                  "maxDeliveryCount": 10,
+                  "status": "Active",
+                  "enablePartitioning": false,
+                  "enableExpress": false
+               }
+            },
+            {
+               "type": "Queues",
+               "apiVersion": "2017-04-01",
+               "name": "[variables('serviceBusDataQueueName')]",
+               "dependsOn": [
+                  "[concat('Microsoft.ServiceBus/namespaces/', variables('serviceBusNamespaceName'))]"
+               ],
+               "properties": {
+                  "lockDuration": "PT5M",
+                  "maxSizeInMegabytes": 1024,
+                  "requiresDuplicateDetection": false,
+                  "requiresSession": false,
+                  "defaultMessageTimeToLive": "P14D",
+                  "deadLetteringOnMessageExpiration": false,
+                  "enableBatchedOperations": true,
+                  "duplicateDetectionHistoryTimeWindow": "PT10M",
+                  "maxDeliveryCount": 10,
+                  "status": "Active",
+                  "enablePartitioning": false,
+                  "enableExpress": false
+               }
+            }
+         ]
+      },
+      {
+         "apiVersion": "2016-08-01",
+         "type": "Microsoft.Web/sites",
+         "name": "[variables('functionAppName')]",
+         "kind": "functionapp",
+         "location" : "West US",
+         "properties": {
+            "name": "[variables('functionAppName')]",
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+            "hostingEnvironment": "",
+            "clientAffinityEnabled": false,
+            "siteConfig": {
+               "alwaysOn": "[not(variables('isSharedPlan'))]",
+               "appSettings": [
+                  {
+                     "name": "PROJECT",
+                     "value": "Source/Microsoft.Teams.Apps.CompanyCommunicator.Send.Func/Microsoft.Teams.Apps.CompanyCommunicator.Send.Func.csproj"
+                  },
+                  {
+                     "name": "SITE_ROLE",
+                     "value": "function"
+                  },
+                  {
+                     "name": "AzureWebJobsStorage",
+                     "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1,';')]"
+                  },
+                  {
+                     "name": "AzureWebJobsDashboard",
+                     "value": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('storageAccountName'),';AccountKey=',listkeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2015-05-01-preview').key1,';')]"
+                  },
+                  {
+                     "name": "FUNCTIONS_EXTENSION_VERSION",
+                     "value": "~2"
+                  },
+                  {
+                     "name": "FUNCTIONS_WORKER_RUNTIME",
+                     "value": "dotnet"
+                  },
+                  {
+                     "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+                     "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')),'2015-05-01-preview').key1)]"
+                  },
+                  {
+                     "name": "WEBSITE_CONTENTSHARE",
+                     "value": "[toLower(variables('functionAppName'))]"
+                  },
+                  {
+                     "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
+                     "value": "[reference(resourceId('microsoft.insights/components/', variables('appInsightsName')), '2015-05-01').InstrumentationKey]"
+                  },
+                  {
+                     "name": "MaxNumberOfAttempts",
+                     "value": "30"
+                  },
+                  {
+                     "name": "MicrosoftAppId",
+                     "value": "[parameters('botClientId')]"
+                  },
+                  {
+                     "name": "MicrosoftAppPassword",
+                     "value": "[parameters('botClientSecret')]"
+                  },
+                  {
+                     "name": "StorageAccountConnectionString",
+                     "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')),'2015-05-01-preview').key1)]"
+                  },
+                  {
+                     "name": "ServiceBusConnection",
+                     "value": "[listkeys(variables('authRuleResourceId'), '2017-04-01').primaryConnectionString]"
+                  }
+               ]
+            }
+         },
+        "dependsOn": [
+            "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+            "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+            "[resourceId('Microsoft.ServiceBus/namespaces', variables('serviceBusNamespaceName'))]"
+         ],
+         "resources": [
+            {
+               "apiVersion": "2018-11-01",
+               "name": "web",
+               "type": "sourcecontrols",
+               "condition": "[not(empty(parameters('gitRepoUrl')))]",
+               "dependsOn": [
+                  "[resourceId('Microsoft.Web/sites', variables('functionAppName'))]"
+               ],
+               "properties": {
+                  "RepoUrl": "[parameters('gitRepoUrl')]",
+                  "branch": "[parameters('gitBranch')]",
+                  "IsManualIntegration": true
+               }
+            }
+         ]
+      },
+      {
+         "apiVersion": "2019-04-01",
+         "type": "Microsoft.Network/frontDoors",
+         "name": "[variables('frontDoorName')]",
+         "condition": "[variables('useFrontDoor')]",
+         "location": "Global",
+         "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', variables('botAppName'))]"
+         ],
+         "properties": {
+            "backendPools": [
+               {
+                  "name": "backendPool1",
+                  "properties": {
+                     "backends": [
+                        {
+                           "address": "[variables('botAppDomain')]",
+                           "backendHostHeader": "[variables('botAppDomain')]",
+                           "httpPort": 80,
+                           "httpsPort": 443,
+                           "priority": 1,
+                           "weight": 50,
+                           "enabledState": "Enabled"
+                        }
+                     ],
+                     "healthProbeSettings": {
+                        "id": "[resourceId('Microsoft.Network/frontDoors/healthProbeSettings', variables('frontDoorName'), 'healthProbeSettings1')]"
+                     },
+                     "loadBalancingSettings": {
+                        "id": "[resourceId('Microsoft.Network/frontDoors/loadBalancingSettings', variables('frontDoorName'), 'loadBalancingSettings1')]"
+                     },
+                     "resourceState": "Enabled"
+                  }
+               }
+            ],
+            "healthProbeSettings": [
+               {
+                  "name": "healthProbeSettings1",
+                  "properties": {
+                     "intervalInSeconds": 255,
+                     "path": "/health",
+                     "protocol": "Https",
+                     "resourceState": "Enabled"
+                  }
+               }
+            ],
+            "frontendEndpoints": [
+               {
+                  "name": "frontendEndpoint1",
+                  "properties": {
+                     "hostName": "[variables('frontDoorDomain')]",
+                     "sessionAffinityEnabledState": "Disabled",
+                     "sessionAffinityTtlSeconds": 0
+                  }
+               }
+            ],
+            "loadBalancingSettings": [
+               {
+                  "name": "loadBalancingSettings1",
+                  "properties": {
+                     "additionalLatencyMilliseconds": 0,
+                     "sampleSize": 4,
+                     "successfulSamplesRequired": 2
+                  }
+               }
+            ],
+            "routingRules": [
+               {
+                  "name": "routingRule1",
+                  "properties": {
+                     "frontendEndpoints": [
+                        {
+                           "id": "[resourceId('Microsoft.Network/frontDoors/frontendEndpoints', variables('frontDoorName'), 'frontendEndpoint1')]"
+                        }
+                     ],
+                     "acceptedProtocols": [
+                        "Https"
+                     ],
+                     "patternsToMatch": [
+                        "/*"
+                     ],
+                     "routeConfiguration": {
+                        "@odata.type": "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration",
+                        "forwardingProtocol": "HttpsOnly",
+                        "backendPool": {
+                           "id": "[resourceId('Microsoft.Network/frontDoors/backendPools', variables('frontDoorName'), 'backendPool1')]"
+                        }
+                     },
+                     "enabledState": "Enabled"
+                  }
+               },
+               {
+                  "name": "routingRule2",
+                  "properties": {
+                     "frontendEndpoints": [
+                        {
+                           "id": "[resourceId('Microsoft.Network/frontDoors/frontendEndpoints', variables('frontDoorName'), 'frontendEndpoint1')]"
+                        }
+                     ],
+                     "acceptedProtocols": [
+                        "Https"
+                     ],
+                     "patternsToMatch": [
+                        "/api/*"
+                     ],
+                     "routeConfiguration": {
+                        "@odata.type": "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration",
+                        "customFragment": null,
+                        "customHost": "[variables('botAppDomain')]",
+                        "customPath": "",
+                        "redirectProtocol": "HttpsOnly",
+                        "customQueryString": null,
+                        "redirectType": "PermanentRedirect"
+                     },
+                     "enabledState": "Enabled"
+                  }
+               }
+            ],
+            "enabledState": "Enabled",
+            "friendlyName": "[variables('frontDoorName')]"
+         }
+      }
+   ],
+   "outputs": {
+      "botId": {
+         "type": "string",
+         "value": "[parameters('botClientId')]"
+      },
+      "appDomain": {
+         "type": "string",
+         "value": "[if(variables('useFrontDoor'), variables('frontDoorDomain'), concat('Please create a custom domain name for ', variables('botAppDomain'), ' and use that in the manifest'))]"
+      }
+   }
+}
