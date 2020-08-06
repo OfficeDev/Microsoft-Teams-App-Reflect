@@ -1,0 +1,198 @@
+﻿@{
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="~/CSS/Index.css" rel="stylesheet" />
+    <script type="text/javascript">
+        let userName = '@ViewBag.UserName';
+    </script>
+    <title>Reflect</title>
+</head>
+
+<body>
+    <div class="spinner"><span></span></div>
+    <div class="mc-content">
+        <div class="container" tabindex="-1" id="postSentMessage">
+            <div id="confirmationMessage"></div>
+            <div class="confirmation">
+                <button type="button" class="btn-send" onclick="done()">Send</button>
+            </div>
+        </div>
+        <div class="cont" id="initialPost">
+            <div class="mc">
+                <div class="">
+                    <div class="question">Question (Max: 150 words)</div>
+                    <div class="custom-in">
+                        <select placeholder="Enter a reflection question" style="width: 100%" class="form-control js-example-tags question-length" id="questions" onchange="getSelectedOption(this)">
+                            <optgroup label="My questions">My questions</optgroup>
+                        </select>
+                        <span class="sel-chev"></span>
+                    </div>
+                    <div class="privacy">Privacy</div>
+                    <div class="input-group custom-in ">
+                        <select class="cs htmlEle js-example-tags" id="privacy" style="width: 100%" data-minimum-results-for-search="Infinity" onchange="setPrivacy()">
+                            <option value="Public – Names displayed on reflections" selected>Public – Names displayed on reflections</option>
+                            <option value="Anonymous – Names not displayed on reflections">Anonymous – Names not displayed on reflections</option>
+                            <option value="Creator only – Names displayed to the creator only">Creator only – Names displayed to the creator only</option>
+                        </select>
+                        <span class="sel-chev3"></span>
+                    </div>
+                    <div class="post">
+                        <div class="row custom-rw">
+                            <div class="col-6 custom-col">
+                                <div class="date">
+                                    <div class="blk-head" id="date">Date</div>
+                                    <input type="date" data-date="" data-date-format="ddd MMM DD, YYYY" value="" class="date-ip htmlEle" id="execdate" />
+                                    <span class="date-icon"></span>
+                                </div>
+                            </div>
+                            <div class="col-6 custom-col">
+                                <div class="blk-head">Time</div>
+                                <div class="selc">
+                                    <select class="cs htmlEle js-example-basic-single" style="width: 100%" name="state" id="exectime">
+                                        <option value="Send now" id="sendnow" selected>Send now</option>
+                                    </select>
+                                    <span class="sel-chev2"></span>
+                                </div>
+                            </div>
+                            <div class="col-6 custom-col">
+                                <div class="blk-head rec">Recurrence</div>
+                                <div class="selc">
+                                    <select class="cs htmlEle js-example-tags" id="recurrence" data-minimum-results-for-search="Infinity" style="width: 100%">
+                                        <option value="Does not repeat" selected class="recurrenceoption">Does not repeat </option>
+                                        <option value="Every weekday" class="recurrenceoption">Every weekday (Mon-Fri)</option>
+                                        <option value="Daily" class="recurrenceoption">Daily</option>
+                                        <option value="Weekly" class="recurrenceoption">Weekly</option>
+                                        <option value="Monthly" class="recurrenceoption">Monthly</option>
+                                        <option value="Custom" class="recurrenceoption">Custom</option>
+                                    </select>
+                                    <span class="sel-chev2"></span>
+                                </div>
+                                <div id="customdata"></div>
+                            </div>
+                            <div class="custom-cal col-6 custom-col" id="customrecurrencediv">
+                                <div class="card day">
+                                    <div class="card-body">
+                                        <div class="recurrence">Recurrence</div>
+                                        <div class="repeat">
+                                            <div class="re">Repeat every</div>
+                                            <div class="sel-day">
+                                                <input name="number" value="1" class="number" type="text" pattern="\d*" maxlength="2" id="number" />
+                                            </div>
+                                            <div class="sel-day-day">
+                                                <select name="day" class="day-drp" id="dwm" value="day">
+                                                    <option value="day">Day</option>
+                                                    <option value="week">Week</option>
+                                                    <option value="month">Month</option>
+                                                </select>
+                                                <span class="down-chev"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="day-select">
+                                            <button class="weekselect" id="Sunday">S</button>
+                                            <button class="weekselect" id="Monday">M</button>
+                                            <button class="weekselect" id="Tuesday">T</button>
+                                            <button class="weekselect" id="Wednesday">W</button>
+                                            <button class="weekselect" id="Thursday">T</button>
+                                            <button class="weekselect" id="Friday">F</button>
+                                            <button class="weekselect" id="Saturday">S</button>
+                                        </div>
+
+                                        <div class="month-cal">
+                                            <div class="form-check">
+                                                <input class="form-check-input on-day-radio" type="radio" name="days-check" id="on-day"
+                                                       value="days" checked>
+                                                <label class="form-check-label on-day" for="on-day">
+                                                    On day
+                                                </label>
+                                                <input name="number" class="number" value="1" id="monthdate" type="text" pattern="\d*" maxlength="2" />
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input on-the-radio" type="radio" name="days-check" id="on-the-day"
+                                                       value="weeks">
+                                                <label class="form-check-label on-day" for="on-the-day">
+                                                    On the
+                                                </label>
+                                                <select name="number" class="day-number" id="weekseries">
+                                                    <option value="First">First</option>
+                                                    <option value="Second">Second</option>
+                                                    <option value="Third">Third</option>
+                                                    <option value="Fourth">Fourth</option>
+                                                    <option value="Last">Last</option>
+                                                </select>
+                                                <select name="number" class="days-text" id="weekday">
+                                                    <option value="Sunday">Sunday</option>
+                                                    <option value="Monday">Monday</option>
+                                                    <option value="Tuesday">Tuesday</option>
+                                                    <option value="Wednesday">Wednesday</option>
+                                                    <option value="Thursday">Thursday</option>
+                                                    <option value="Friday">Friday</option>
+                                                    <option value="Saturday">Saturday</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="finaldates" id="finaldates">Every <span id="customnumber"></span> <span id="customtype"></span> <span id="slectedweeks"></span> starting from <span id="startdatedisplay"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="prev">Preview</div>
+                    <div class="br-blk">
+                        <div class="created"><img src="~/Images/iconCreator.png" class="previewimg" />Created by<span id="usertext"></span></div>
+                        <div class="reflections"><img src="~/Images/iconPrivacy.png" class="previewimg" /> <span id="privacytext">  </span></div>
+                        <div class="feeling" id="selectedTxt"></div>
+                        <div class="smiles">
+                            <span class="ava">
+                                <img src="~/Images/Default_1.png" alt="smile1" class="avatars">
+                            </span>
+                            <span class="ava">
+                                <img src="~/Images/Default_2.png" alt="smile2" class="avatars">
+                            </span>
+                            <span class="ava">
+                                <img src="~/Images/Default_3.png" alt="smile3" class="avatars">
+                            </span>
+                            <span class="ava">
+                                <img src="~/Images/Default_4.png" alt="smile4" class="avatars">
+                            </span>
+                            <span class="ava">
+                                <img src="~/Images/Default_5.png" alt="smile5" class="avatars">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mf modal-footer" tabindex="-1">
+                    <span class="clk"></span>
+                    <span class="manage" onclick="openTaskModule()" tabindex="0">Scheduled reflections <span id="recurssionscount"></span> </span>
+                    <div class="float-right" tabindex="-1">
+                        <button type="button" class="btn-cancle" data-dismiss="modal" onclick="closeTaskModule()" tabindex="0">Close</button>
+                        <button type="button" class="btn-send" onclick="SendAdaptiveCard()" tabindex="0">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="@("https://unpkg.com/@microsoft/teams-js@1.4.1/dist/MicrosoftTeams.min.js")"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="~/Scripts/Index.js"></script>
+    <script src="~/Scripts/timevalues.js"></script>
+</body>
+</html>
