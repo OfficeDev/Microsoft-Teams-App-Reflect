@@ -1,0 +1,49 @@
+﻿@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <title>view2</title>
+</head>
+
+<body>
+    <div class="container">
+        <input type="text" id="reflectionid" value="@ViewBag.reflectionId" style="display:none" />
+        <input type="text" id="feedbackId" value="@ViewBag.feedbackId" style="display:none" />
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content custom-mc">
+                <div class="modal-body modal-mb-sc2">
+                    <div class="feeling-abt" id="questiontitle"></div>
+                    <div class="review-blk" id="feedbackblock">
+
+                    </div>
+                    <div class="name">Name</div>
+                    <div class="names-list">
+                        <table class="table">
+                            <tbody id="peopledata">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="mf modal-footer">
+                    <span class="chev-right"></span>
+                    <div type="button" class="btn-send">Back</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="@("https://unpkg.com/@microsoft/teams-js@1.4.1/dist/MicrosoftTeams.min.js")"></script>
+    <script src="~/Scripts/viewreflectionsfeedbcak.js"></script>
+</body>
+
+</html>

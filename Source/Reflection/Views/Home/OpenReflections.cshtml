@@ -1,0 +1,93 @@
+﻿@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    <script type="text/javascript">
+        let userName = '@ViewBag.userName';
+    </script>
+    <title>Screen2</title>
+</head>
+
+<body>
+    <div class="spinner"><span></span></div>
+    <div class="modal2">
+        <!-- Modal -->
+        <div role="document" class="openreflection">
+            <div class="custom-mc">
+                <input type="text" id="reflectionid" value="@ViewBag.reflectionId" style="display:none" />
+                <input type="text" id="feedbackId" value="@ViewBag.feedbackId" style="display:none" />
+                <div class="modal-mb-sc2" style="display:none">
+                    <div class="feeling-abt" id="questiontitle"></div>
+                    <div class="sc2br-blk">
+                        <div class="created-sc2"><img src="~/Images/iconCreator.png" class="previewimg" />Created by <span id="createdby"></span></div>
+                        <div class="reflections-sc2"><img src="~/Images/iconPrivacy.png" class="previewimg" /><span id="privacy"></span></div>
+                    </div>
+                    <div class="emoji-selected">
+                        <div class="ur-selected">Your response: <span class="check-in">Add a reflection</span></div>
+                        <div class="parent-hover">
+                            <div class="emoji-selected-img">
+                                <img src="~/Images/Default_2.png" class="selected-img" id="selectedimage" />
+                                <span class="down-chev"></span>
+                                <div class="card custom-emoji-card">
+                                    <div class="card-body emoji-cb">
+                                        <span class="imgs-card">
+                                            <img src="~/Images/Default_1.png" class="select-img" id="img1" />
+                                        </span>
+                                        <span class="imgs-card">
+                                            <img src="~/Images/Default_2.png" class="select-img active" id="img2" />
+                                        </span>
+                                        <span class="imgs-card">
+                                            <img src="~/Images/Default_3.png" class="select-img" id="img3" />
+                                        </span>
+                                        <span class="imgs-card">
+                                            <img src="~/Images/Default_4.png" class="select-img" id="img4" />
+                                        </span>
+                                        <span class="imgs-card">
+                                            <img src="~/Images/Default_5.png" class="select-img" id="img5" />
+                                        </span>
+                                        <span class="divider">|</span>
+                                        <span class="remove">Remove</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-blk" id="reviewblock">
+                    </div>
+                    <div id="detaiilfeedbackblock">
+                        <div class="feedback-blk" id="feedbackblock">
+                        </div>
+                        <div class="name">Name</div>
+                        <div class="names-list">
+                            <table class="table">
+                                <tbody id="peopledata">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="feedback-back back-chev" onclick="closeDetailedFeedback()">
+                                Back
+                        </div>
+                    </div>
+                    <div class="mf" id="doneButton">
+                        <div class="float-right">
+                            <button type="button" class="btn-send" onclick="SendFeedbackCard()">Done</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+   
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.5.2/js/MicrosoftTeams.min.js" crossorigin="anonymous"></script>
+    <script src="~/Scripts/viewreflections.js"></script>
+</body>
+</html>

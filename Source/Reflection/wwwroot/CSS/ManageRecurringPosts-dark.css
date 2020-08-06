@@ -1,0 +1,668 @@
+@font-face {
+    font-family: "Teams Assets";
+    src: url("../fonts/TeamsAssets-Light.woff") format("woff"), url("../fonts/TeamsAssets-Light.woff2") format("woff2");
+    font-style: normal;
+}
+
+.theme-dark .panel {
+    background-color: #2d2c2c;
+}
+
+body {
+    background-color: #2d2c2c;
+}
+
+.manage-R {
+    margin: 0 32px;
+}
+
+.custom-mh {
+    margin: 32px 32px 0 32px;
+    padding: 0;
+    border-bottom: none;
+}
+
+.close {
+    font-family: Teams Assets;
+    font-weight: 300;
+    color: #000000;
+    opacity: 0.5;
+    outline-color: white !important;
+}
+
+.head-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 3px;
+}
+
+.media-mb {
+    line-height: 1;
+    margin-top: 3px;
+}
+
+.heading {
+    font-family: Segoe UI;
+    font-size: 14px;
+    letter-spacing: 0.1px;
+    color: #252424;
+    font-weight: 600;
+}
+
+.head-desc {
+    font-family: Segoe UI;
+    font-size: 12px;
+    color: #252424;
+}
+
+.modal-mb-sc2 {
+    margin-top: 16px;
+    padding: 0;
+    overflow: auto;
+    height: 500px;
+}
+
+.recurring {
+    font-family: Segoe UI;
+    font-size: 18px;
+    color: #252424;
+    font-weight: 500;
+}
+
+.recu-desc {
+    font-family: Segoe UI;
+    font-size: 12px;
+    color: #737373;
+    width: 534px;
+    height: 36px;
+}
+
+.custom-tb {
+    margin-top: 19px;
+}
+
+.mf-manage {
+    display: none;
+}
+
+.qutin,
+.privacy,
+.snd-post {
+    font-family: Segoe UI;
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: 400;
+    padding-top: 0px !important;
+}
+
+.qutin {
+    padding-left: 0px !important;
+}
+
+.privacy {
+    font-size: 14px;
+}
+
+.privacy2 {
+    text-align: left;
+    margin: .5rem 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.table td {
+    border-top: 1px solid #3b3a39;
+}
+
+.hw-r-u {
+    font-family: Segoe UI;
+    font-size: 14px;
+    color: #ffffff;
+    margin: 19px 0 0 15px;
+    border-top: 1px solid #3b3a39;
+    font-weight: 500;
+    padding-left: 0px !important;
+}
+
+.privacy-cl {
+    color: #ffffff;
+    vertical-align: middle !important;
+    text-transform: capitalize;
+    font-family: Segoe UI;
+    font-size: 14px;
+}
+
+.hw-r-u,
+.cus-box,
+.date-day {
+    padding: 0.4rem 0rem !important;
+}
+
+.date-day {
+    padding: 0 0 0 0.75rem !important;
+}
+
+.table thead th {
+    border-bottom: none;
+}
+
+.table th {
+    border-top: none;
+    border-bottom: 1px solid #3b3a39;
+}
+
+tr:last-child {
+    border-bottom: 1px solid #3b3a39;
+}
+
+.hru-desc {
+    font-family: Segoe UI;
+    font-size: 12px;
+    color: #ffffff;
+    opacity: 0.75;
+    font-weight: 400;
+}
+
+.cus-box {
+    text-align: center;
+    padding-left: 0 !important;
+    vertical-align: middle !important;
+}
+
+.date-day {
+    font-family: Segoe UI;
+    font-size: 14px;
+    color: #ffffff;
+    vertical-align: middle !important;
+}
+
+
+td.delete-icon {
+    vertical-align: middle;
+}
+
+.delete-icon:before {
+    content: "\E42B";
+    font-family: "Teams Assets";
+    font-size: 16px;
+    color: #a6a8da;
+    float: right;
+    cursor: pointer;
+    margin-right: 8%;
+}
+
+td.edit-icon {
+    vertical-align: middle;
+}
+
+.edit-icon:before {
+    content: "\E41E";
+    font-family: "Teams Assets";
+    font-size: 16px;
+    color: #a6a8da;
+    float: right;
+    cursor: pointer;
+    margin-right: 8%;
+}
+
+.mf {
+    border-top: 2px solid #3b3a39;
+    display: block;
+}
+
+.float-left {
+    color: #A6A7DC;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.left-chev:before {
+    content: "\E425";
+    font-family: "Teams Assets";
+    font-size: 12px;
+    color: #A6A7DC;
+    cursor: pointer;
+}
+
+.cs {
+    height: 32px;
+    font-family: Segoe UI;
+    font-size: 14px;
+    color: whitesmoke;
+    padding: 4px 12px;
+    background-color: #201F1F;
+    border-radius: 3px;
+    border: none !important;
+    width: 100%;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+    .cs:focus {
+        border-color: white !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+.sel-chev3::before {
+    content: "\E447";
+    font-family: "Teams Assets";
+    pointer-events: none;
+    position: absolute;
+    right: 10px;
+    float: right;
+    color: whitesmoke;
+    top: 4px;
+}
+
+.blk-head {
+    font-family: Segoe UI;
+    font-size: 14px;
+    color: whitesmoke;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.date-ip,
+.time-ip {
+    background: #f3f2f1;
+    border-radius: 3px;
+    height: 32px;
+    font-size: 14px;
+}
+
+    .date-ip:before {
+        content: attr(data-date);
+    }
+
+.date-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+    .date-icon::before {
+        content: "\E503";
+        font-family: "Teams Assets";
+        font-size: 14px;
+        color: #A6A7DC;
+        position: relative;
+        float: right;
+        right: 12px;
+        bottom: 28px;
+        pointer-events: none;
+    }
+
+.date-ip {
+    width: 100%;
+    padding-left: 8px;
+    border: none;
+    outline: none;
+    background-color: #201F1F;
+    color: whitesmoke;
+}
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: transparent;
+    background: none;
+    z-index: 1;
+}
+
+input[type="date"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+
+input::-webkit-datetime-edit, input::-webkit-inner-spin-button, input::-webkit-clear-button {
+    display: none;
+}
+
+input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 39px;
+    color: #6266a5;
+    right: 10px;
+}
+
+.sel-chev2::before {
+    content: "\E447";
+    font-family: "Teams Assets";
+    pointer-events: none;
+    position: relative;
+    color: whitesmoke;
+    float: right;
+    right: 10px;
+    bottom: 28px;
+}
+
+.custom-col {
+    height: 70px;
+}
+
+.date, .blk-head {
+    margin-top: .5rem;
+}
+
+.modal-content {
+    background-color: #2d2c2c;
+    color: whitesmoke;
+}
+
+.modal-header {
+    border-bottom: 1px solid #3B3A39;
+}
+
+.modal-footer {
+    border-top: 1px solid #3B3A39;
+}
+
+.btn-cancle {
+    background-color: #2d2c2c;
+    border: 1px solid #605e5c;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    color: white;
+    height: 32px;
+    font-weight: 500;
+    font-size: 14px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.donebuttons {
+    position: relative;
+    padding-top: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.btn-cancle:focus,
+.btn-send:focus {
+    outline-color: #dddddd;
+}
+
+.btn-send {
+    background-color: #6266A5;
+    color: #ffffff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    width: 97px;
+    height: 32px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    border: 1px solid #6266a5;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.edit-popup {
+    float: right;
+    margin-top: 2%;
+    bottom: 24%;
+    position: absolute;
+    right: 30%;
+}
+
+.btn-cancle:focus,
+.btn-deleterecurr:focus {
+    outline-color: #dddddd;
+}
+
+.delete-recurr {
+    width: auto !important;
+}
+
+.back-button {
+    bottom: 5%;
+    position: absolute;
+}
+
+.deleterecurrbuttons {
+    margin-top: 2%;
+    bottom: 4%;
+    position: absolute;
+    right: 4%;
+}
+
+.deletemessage {
+    font-weight: bold;
+    margin-top: 3%;
+    font-family: Segoe UI;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.deletesubmessage {
+    font-family: Segoe UI;
+    font-size: 14px;
+    color: #ffffff;
+    margin-top: 2%;
+}
+
+/*week*/
+.week {
+    position: relative;
+    background: #2D2C2C;
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
+    height: auto;
+    border: 1px solid #201F1F;
+}
+
+.float-right {
+    float: right;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-done {
+    background-color: #6266a5;
+    color: #ffffff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+    width: 118px;
+    height: 32px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    border: 1px solid #6266a5;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 425px) {
+    .custom-mc, .review-blk {
+        height: auto;
+    }
+
+    .recu-desc {
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .modal-mb-sc2 {
+        margin: 32px 10px;
+    }
+}
+
+.post {
+    position: absolute;
+    left: 398px;
+}
+
+.selectedweek, .selectedweek:hover {
+    background-color: #6266A5;
+    color: #fff;
+}
+
+.weekselect {
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    min-width: 2.2rem !important;
+    box-shadow: none;
+    border: none;
+    padding-left: 0;
+    padding-right: 0;
+    display: inline;
+    align-items: center;
+}
+
+.re {
+    font-family: Segoe UI;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 18px 12px 17px 0px;
+    width: 80px;
+    height: 20px;
+}
+
+.recurrence {
+    font-family: Segoe UI;
+    font-weight: bold;
+    font-size: 14px;
+    color: #fff;
+}
+
+.finaldates {
+    width: 239px;
+    font-family: Segoe UI;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.75)
+}
+
+.month {
+    position: relative;
+    width: 320px;
+    background: #2D2C2C;
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
+    height: auto;
+}
+
+.on-day-radio {
+    margin-top: 10px;
+    background: #6266A5;
+}
+
+.on-the-radio {
+    margin-top: 18px;
+    background: #6266A5;
+}
+
+.number {
+    -webkit-appearance: none;
+    padding: 0px 12px;
+    width: 40px;
+    height: 32px;
+    background: #201F1F;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    font-family: Segoe UI;
+    font-size: 14px;
+    color: #fff;
+}
+
+.day-drp {
+    -webkit-appearance: none;
+    padding: 0px 12px;
+    width: 90px;
+    height: 32px;
+    background: #201F1F;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    font-family: Segoe UI;
+    font-size: 14px;
+    color: #fff;
+}
+
+.day-number,
+.days-text {
+    -webkit-appearance: none;
+    padding: 0px 12px;
+    width: 74px;
+    height: 32px;
+    background: #201F1F;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    font-family: Segoe UI;
+    font-size: 14px;
+    margin: 8px 0 11px 0;
+    color: #fff;
+}
+
+.on-day {
+    font-family: Segoe UI;
+    font-size: 14px;
+    color: #fff;
+    margin-right: 8px;
+}
+
+.day {
+    position: relative;
+    width: 320px;
+    background: #2D2C2C;
+    height: auto;
+}
+
+.day-drp {
+    -webkit-appearance: none;
+    padding: 0px 12px;
+    width: 90px;
+    height: 32px;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    font-family: Segoe UI;
+    font-size: 14px;
+    color: #fff;
+}
+
+.down-chev::before {
+    content: "\E447";
+    font-family: "Teams Assets";
+    font-size: 16px;
+    color: #fff;
+    position: relative;
+    right: 1.5rem;
+    top: 4px;
+    pointer-events: none;
+}
+
+.spinner {
+    border-width: 8px;
+    border-style: solid;
+    border-color: #6264A7 #6264A7 #6264A7 transparent;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+    position: relative;
+    margin: auto;
+    top: 10rem;
+}
+
+    .spinner:before, .spinner:after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #6264A7;
+        position: absolute;
+        left: 4px;
+    }
+
+    .spinner:before {
+        top: 7px;
+    }
+
+    .spinner:after {
+        bottom: 7px;
+    }
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,142 @@
+@font-face {
+  font-family: "Teams Assets";
+  src: url("../fonts/TeamsAssets-Light.woff") format("woff"),
+    url("../fonts/TeamsAssets-Light.woff2") format("woff2");
+  font-style: normal;
+}
+
+.modal-md {
+  max-width: 600px;
+}
+.custom-mc {
+  height: 648px;
+}
+.custom-mh {
+  margin: 32px 32px 0 32px;
+  padding: 0;
+  border-bottom: none;
+}
+
+.modal-mb-sc2 {
+  margin: 28px 32px;
+  padding: 0;
+}
+.mf {
+  margin: 0 32px 2px 32px;
+  border-top: 2px solid #dee2e6;
+  justify-content: left;
+  padding-left: 0px;
+}
+
+.chev-right::before {
+  content: "\E448";
+  font-family: "Teams Assets";
+  font-size: 20px;
+  color: #6266a5;
+  cursor: pointer;
+}
+
+.btn-send {
+  color: #333333;
+  font-size: 14px;
+}
+.feeling-abt {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-family: Segoe UI;
+  font-size: 18px;
+  color: #000000;
+  font-weight: 500;
+}
+.review-blk {
+  height: 52px;
+  background: #f9f8f7;
+}
+.smil {
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  margin: 10px 0 10px 16px;
+}
+.cb-smile {
+  margin: 14px 16px 14px 10px;
+}
+.custom-pr {
+  height: 24px;
+}
+.bg-green {
+  background-color: #7bce95 !important;
+}
+
+.bg-light-green {
+    background-color: #b5ef8e !important;
+}
+
+.bg-orng {
+    background-color: #fec745 !important;
+}
+
+.bg-red {
+    background: #fd966b !important;
+}
+
+.bg-dark-red {
+    background: #ff6670 !important;
+}
+
+.cnt-box {
+  width: 66px;
+  height: 24px;
+  border-radius: 3px;
+  margin-right: 16px;
+  font-family: Segoe UI;
+  font-size: 16px;
+  color: #ffffff;
+  text-align: center;
+}
+.box1 {
+  margin: 14px 8px 14px 0px;
+  color: black;
+}
+
+.names {
+  font-family: Segoe UI;
+  font-size: 14px;
+}
+.table td {
+  border-bottom: 1px solid #dee2e6;
+  border-top: none;
+}
+.text-right::before {
+  content: "\E340";
+  font-family: "Teams Assets";
+  font-size: 16px;
+  color: #6266a5;
+  cursor: pointer;
+}
+.avatar {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+@media screen and (max-width: 425px) {
+  .custom-mc,
+  .review-blk {
+    height: auto;
+  }
+}
