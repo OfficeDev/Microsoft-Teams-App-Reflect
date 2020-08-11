@@ -1,6 +1,6 @@
 # Microsoft Reflect messaging extension for Teams overview
 
-| [Documentation](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki) | [Deployment Guide](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Reflect-Deployment-Guide) | [Solution Overview](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Solution-Overview) |
+| [Documentation](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki) | [Deployment Guide](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Reflect-Deployment-Guide) | [Solution Overview](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Architecture-&-Solution-Overview) |
 | ----------- | ----------- | ----------- |
 
 We thrive when we are working and learning in environments that support our emotional wellbeing. These are environments in which we feel heard, valued, safe, and included.
