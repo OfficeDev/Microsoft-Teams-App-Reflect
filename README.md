@@ -22,7 +22,7 @@ Group leaders can check-in with their team members about how they are feeling in
 - Professional development resources for educators available at: https://aka.ms/checking-in-with-students and https://aka.ms/remote-wellbeing
 
 # Getting Started #
-Begin with the [Solution overview](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Solution-Overview) to read about what the app does and how it works.
+Begin with the [Solution overview](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Architecture-&-Solution-Overview) to read about what the app does and how it works.
 When you're ready to try out Reflect, or to use it in your own organization, follow the steps in the [Deployment guide](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Reflect-Deployment-Guide).
 
 # Feedback #
