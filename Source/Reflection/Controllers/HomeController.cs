@@ -336,5 +336,18 @@ namespace Microsoft.Teams.Apps.Reflect.Web.Controllers
                 return null;
             }
         }
+
+        /// <summary>
+        /// Renders index view.
+        /// </summary>
+        /// <param name="userName">userName.</param>
+        /// <returns>View.</returns>
+        [Route("")]
+        public ActionResult Home()
+        {
+            _telemetry.TrackEvent("Home");
+
+            return View();
+        }
     }
 }
