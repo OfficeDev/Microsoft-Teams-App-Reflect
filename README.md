@@ -11,7 +11,7 @@ The Reflect messaging extension helps team members be more aware of their own, a
 
 Group leaders can check-in with their team members about how they are feeling in general, or about a specific topic, such as an assignment, the experience of learning or working from home, or current events in their community.
 
-![](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/blob/main/Responding%20to%20a%20reflect%20poll%20method%201.png)
+![](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/blob/main/images/Responding%20to%20a%20reflect%20poll%20method%201.png)
 
 ### Key Features ###
 - Aligned with the lastest research and best practices for social-emotional learning, organizational psychology, and emotionally supportive environments
