@@ -14,7 +14,7 @@ Group leaders can check-in with their team members about how they are feeling in
 ![](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/blob/main/images/Responding%20to%20a%20reflect%20poll%20method%201.png)
 
 ### Key Features ###
-- Aligned with the lastest research and best practices for social-emotional learning, organizational psychology, and emotionally supportive environments
+- Aligned with the latest research and best practices for social-emotional learning, organizational psychology, and emotionally supportive environments
 - Available as a chat extension for channel discussion, in group and meeting chats and in 1:1 chats
 - Includes a list of suggested check-in questions and offers the ability to create custom questions for checking in with colleagues
 - Check-ins can be set so responses are public, private to sender, or fully anonymous  
