@@ -23,6 +23,8 @@ namespace Reflection.Interfaces
 
         Task SaveQuestionsDataAsync(TaskInfo taskInfo);
 
+        Task SaveDefaultQuestionsDataAsync();
+
         Task SaveRecurssionDataAsync(TaskInfo taskInfo);
 
         Task SaveReflectionFeedbackDataAsync(UserfeedbackInfo taskInfo);

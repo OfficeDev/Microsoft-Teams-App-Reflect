@@ -673,6 +673,17 @@ namespace Microsoft.Teams.Apps.Reflect.Web
         }
 
         /// <summary>
+        /// On Conversation Update Activity.
+        /// </summary>
+        /// <param name="turnContext">turnContext.</param>
+        /// <param name="cancellationToken">cancellationToken.</param>
+        /// <returns>null.</returns>
+        protected override async Task OnConversationUpdateActivityAsync(ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        {
+            await _dbHelper.SaveDefaultQuestionsDataAsync();
+        }
+
+        /// <summary>
         /// Gets Attachment.
         /// </summary>
         /// <param name="title">title.</param>
