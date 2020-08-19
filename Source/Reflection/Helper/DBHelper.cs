@@ -172,6 +172,41 @@ namespace Reflection.Helper
         }
 
         /// <summary>
+        /// Save Question data in Table Storage for deafult questions based on different conditions.
+        /// </summary>
+        /// <returns>Null.</returns>
+        public async Task SaveDefaultQuestionsDataAsync()
+        {
+            QuestionsDataRepository questionsDataRepository = new QuestionsDataRepository(_configuration, _telemetry);
+            var isDefaultQuestionsPresent = await questionsDataRepository.IsDefaultQuestionAlreadyPresent();
+            if (!isDefaultQuestionsPresent)
+            {
+                _telemetry.TrackEvent("DefaultQuestions");
+                try
+                {
+                    List<string> questions = _configuration.GetSection("DefaultQuestions:Questions").Get<List<string>>();
+                    foreach (string question in questions)
+                    {
+                        QuestionsDataEntity questionEntity = new QuestionsDataEntity
+                        {
+                            QuestionID = Guid.NewGuid(),
+                            PartitionKey = PartitionKeyNames.QuestionsDataTable.QuestionsDataPartition,
+                            RowKey = Guid.NewGuid().ToString(),
+                            Question = question,
+                            IsDefaultFlag = true,
+                            QuestionCreatedDate = DateTime.Now,
+                        };
+                        await questionsDataRepository.CreateOrUpdateAsync(questionEntity);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _telemetry.TrackException(ex);
+                }
+            }
+        }
+
+        /// <summary>
         /// Save Reflection Recursion data in Table Storage.
         /// </summary>
         /// <param name="taskInfo">This parameter is a ViewModel.</param>

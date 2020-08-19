@@ -4,35 +4,40 @@
   "parameters": {
     "AppServicePlan": {
       "type": "string",
-      "minLength": 1
+      "defaultValue": "reflect"
     },
     "botServicesname": {
       "type": "String",
-      "defaultValue": ""
+      "defaultValue": "reflectbotservice"
     },
     "StorageAccountName": {
       "type": "String",
-      "defaultValue": ""
+      "defaultValue": "reflectstorageaccount"
     },
     "WebAppService": {
       "type": "String",
-      "defaultValue": ""
+      "defaultValue": "reflectwebappservice"
     },
     "BotID": {
-      "type": "String"
+      "type": "String",
+      "metadata": {
+        "description": "The client ID of the bot Azure AD app, e.g., 123e4567-e89b-12d3-a456-426655440000."
+      }
     },
     "botClientSecret": {
-      "type": "securestring"
+      "type": "securestring",
+      "metadata": {
+        "description": "The client secret of the bot Azure AD app."
+      }
     },
     "AppInsights": {
       "type": "String",
-      "defaultValue": ""
+      "defaultValue": "reflectappinsights"
     },
     "AppInsightsComponents": {
       "type": "String",
-      "defaultValue": ""
+      "defaultValue": "reflectappinsights"
     }
-
   },
   "resources": [
     {
@@ -83,7 +88,7 @@
       "type": "microsoft.insights/actionGroups",
       "apiVersion": "2019-03-01",
       "name": "[parameters('AppInsights')]",
-      "location": "Global",
+      "location": "global",
       "properties": {
         "groupShortName": "SmartDetect",
         "enabled": true,
@@ -102,7 +107,7 @@
       "type": "microsoft.insights/components",
       "apiVersion": "2018-05-01-preview",
       "name": "[parameters('AppInsightsComponents')]",
-      "location": "eastus",
+      "location": "[resourceGroup().location]",
       "tags": {
         "hidden-link:/subscriptions/subscription().id/resourceGroups/resourceGroup().name/providers/Microsoft.BotService/botServices/[parameters('botServicesname')]": "Resource",
         "hidden-link:/subscriptions/subscription().id/resourceGroups/resourceGroup().name/providers/Microsoft.Web/sites/[parameters('WebAppService')]": "Resource"
@@ -121,7 +126,7 @@
       "name": "[parameters('botServicesname')]",
       "location": "global",
       "sku": {
-        "name": "S1"
+        "name": "F0"
       },
       "kind": "sdk",
       "properties": {
@@ -142,6 +147,5 @@
         ]
       }
     }
-
   ]
 }

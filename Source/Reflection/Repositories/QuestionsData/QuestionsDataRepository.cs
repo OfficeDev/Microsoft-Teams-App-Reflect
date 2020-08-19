@@ -130,6 +130,31 @@ namespace Reflection.Repositories.QuestionsData
         }
 
         /// <summary>
+        /// Is Default Question Already Present.
+        /// </summary>
+        /// <returns>Bool.</returns>
+        public async Task<bool> IsDefaultQuestionAlreadyPresent()
+        {
+            _telemetry.TrackEvent("IsDefaultQuestionAlreadyPresent");
+            try
+            {
+                var allRows = await this.GetAllAsync(PartitionKeyNames.QuestionsDataTable.TableName);
+
+                if (allRows.Any(c => c.IsDefaultFlag == true))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                _telemetry.TrackException(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Get Question Data.
         /// </summary>
         /// <param name="quesID">quesID.</param>
