@@ -53,6 +53,21 @@ $(document).ready(function () {
         GetDefaultQuestions(context.userPrincipalName);
     });
 
+    document.addEventListener('DOMNodeInserted', () => {
+        const node = document.getElementsByClassName("select2-search__field")[0];
+        if (node) {
+            node.addEventListener('focusout', () => {
+                if ($(".select2-search__field").val()) {
+                    var divPreviewEle = document.getElementById("selectedTxt");
+                    divPreviewEle.textContent = $(".select2-search__field").val();
+                    var divEle = document.getElementById("select2-questions-container");
+                    divEle.textContent = $(".select2-search__field").val();
+                    $("#questions").val($(".select2-search__field").val());
+                }
+            });
+        }
+    });
+
     $(".date-ip")
         .on("change", function () {
             this.setAttribute(
