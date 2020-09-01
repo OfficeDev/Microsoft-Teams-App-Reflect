@@ -3,48 +3,64 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "AppServicePlan": {
-      "type": "string",
-      "defaultValue": "reflect"
+      "defaultValue": "[resourceGroup().name]",
+      "minLength": 1,
+      "type": "String"
     },
     "botServicesname": {
-      "type": "String",
-      "defaultValue": "reflectbotservice"
+      "defaultValue": "[resourceGroup().name]",
+      "type": "String"
     },
     "StorageAccountName": {
-      "type": "String",
-      "defaultValue": "reflectstorageaccount"
+      "defaultValue": "[resourceGroup().name]",
+      "type": "String"
     },
     "WebAppService": {
-      "type": "String",
-      "defaultValue": "reflectwebappservice"
+      "defaultValue": "[resourceGroup().name]",
+      "type": "String"
     },
     "BotID": {
+      "defaultValue": "",
       "type": "String",
       "metadata": {
         "description": "The client ID of the bot Azure AD app, e.g., 123e4567-e89b-12d3-a456-426655440000."
       }
     },
     "botClientSecret": {
-      "type": "securestring",
+      "type": "SecureString",
       "metadata": {
         "description": "The client secret of the bot Azure AD app."
       }
     },
     "AppInsights": {
-      "type": "String",
-      "defaultValue": "reflectappinsights"
+      "defaultValue": "reflectappinsights",
+      "type": "String"
     },
     "AppInsightsComponents": {
+      "defaultValue": "reflectappinsights",
+      "type": "String"
+    },
+    "gitRepoUrl": {
+      "defaultValue": "https://github.com/OfficeDev/Microsoft-Teams-App-Reflect.git",
       "type": "String",
-      "defaultValue": "reflectappinsights"
+      "metadata": {
+        "description": "The URL to the GitHub repository to deploy."
+      }
+    },
+    "gitBranch": {
+      "defaultValue": "main",
+      "type": "String",
+      "metadata": {
+        "description": "The branch of the GitHub repository to deploy."
+      }
     }
   },
   "resources": [
     {
       "name": "[parameters('AppServicePlan')]",
       "type": "Microsoft.Web/serverfarms",
-      "location": "[resourceGroup().location]",
       "apiVersion": "2014-06-01",
+      "location": "[resourceGroup().location]",
       "dependsOn": [],
       "tags": {
         "displayName": "ARMAppserviceplan"
@@ -57,8 +73,8 @@
     {
       "name": "[parameters('StorageAccountName')]",
       "type": "Microsoft.Storage/storageAccounts",
-      "location": "[resourceGroup().location]",
       "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
       "dependsOn": [],
       "tags": {
         "displayName": "ARMReflectStorage"
@@ -67,23 +83,7 @@
         "accountType": "Standard_LRS"
       }
     },
-    {
-      "name": "[parameters('WebAppService')]",
-      "type": "Microsoft.Web/sites",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2015-08-01",
-      "dependsOn": [
-        "[concat('Microsoft.Web/serverfarms/', parameters('AppServicePlan'))]"
-      ],
-      "tags": {
-        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('AppServicePlan'))]": "Resource",
-        "displayName": "ReflectARM"
-      },
-      "properties": {
-        "name": "[parameters('WebAppService')]",
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', parameters('AppServicePlan'))]"
-      }
-    },
+
     {
       "type": "microsoft.insights/actionGroups",
       "apiVersion": "2019-03-01",
@@ -146,6 +146,63 @@
           "[resourceId('microsoft.insights/components', parameters('AppInsights'))]"
         ]
       }
+    },
+    {
+      "name": "[parameters('WebAppService')]",
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2015-08-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Web/serverfarms/', parameters('AppServicePlan'))]"
+      ],
+      "tags": {
+        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', parameters('AppServicePlan'))]": "Resource",
+        "displayName": "ReflectARM"
+      },
+      "properties": {
+        "name": "[parameters('WebAppService')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', parameters('AppServicePlan'))]"
+      },
+      "resources": [
+        {
+          "type": "sourcecontrols",
+          "apiVersion": "2016-08-01",
+          "name": "web",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('AppServicePlan'))]"
+          ],
+          "properties": {
+            "RepoUrl": "[parameters('gitRepoUrl')]",
+            "branch": "[parameters('gitBranch')]",
+            "IsManualIntegration": true
+          },
+          "condition": "[not(empty(parameters('gitRepoUrl')))]"
+        },
+        {
+          "type": "config",
+          "apiVersion": "2019-08-01",
+          "name": "appsettings",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('WebAppService'))]",
+            "[resourceId('Microsoft.Insights/components', parameters('AppInsightsComponents'))]"
+          ],
+          "properties": {
+            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('Microsoft.Insights/components', parameters('AppInsights')), '2018-05-01-preview').InstrumentationKey]",
+            "webSiteName": "[parameters('WebAppService')]",
+            "storageAccountName": "[parameters('StorageAccountName')]",
+            "StorageAccountConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), '2019-06-01').keys[0].value)]",
+            "appInsightsName": "[parameters('AppInsights')]",
+            "ReflectionPartitionKey": "ReflectionDataEntity",
+            "RecurssionPartitionKey": "RecurssionData",
+            "QuestionPartitionKey": "QuestionsData",
+            "ResourceGroupName": "[resourceGroup().name]",
+            "SubscriptionId": "[subscription().subscriptionId]",
+            "MicrosoftAppId": "[parameters('BotID')]",
+            "MicrosoftAppPassword": "[parameters('botClientSecret')]",
+            "BaseUri": "[concat('https://',parameters('WebAppService'),'.azurewebsites.net')]"
+          }
+        }
+      ]
     }
   ]
 }
