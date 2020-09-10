@@ -5,7 +5,7 @@
   "id": "{{new GUID}}",
   "packageName": "com.contoso.helloworld",
   "developer": {
-    "name": "Contoso",
+    "name": "Microsoft",
     "websiteUrl": "https://www.microsoft.com",
     "privacyUrl": "https://www.microsoft.com/privacy",
     "termsOfUseUrl": "https://www.microsoft.com/termsofuse"
@@ -17,7 +17,7 @@
   },
   "description": {
     "short": "Communication",
-    "full": "Help people be more aware of their own, and each others, emotional state during communication so they can collaborate in more meaningful ways."
+    "full": "Help people be more aware of their own, and each others', emotional state during communication so they can collaborate in more meaningful ways."
   },
   "icons": {
     "outline": "outline.png",
