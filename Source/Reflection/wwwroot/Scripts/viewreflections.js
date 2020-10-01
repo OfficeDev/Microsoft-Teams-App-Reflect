@@ -237,24 +237,29 @@ function GetReflections() {
                     if (i === 1) {
                         color = "green";
                         img = "Default_1.png";
+                        altText = "Thrilled";
                     } else if (i === 2) {
                         color = "light-green";
                         img = "Default_2.png";
+                        altText = "Happy";
                     } else if (i === 3) {
                         color = "orng";
                         img = "Default_3.png";
+                        altText = "Calm";
                     } else if (i === 4) {
                         color = "red";
                         img = "Default_4.png";
+                        altText = "Sad";
                     } else if (i === 5) {
                         color = "dark-red";
                         img = "Default_5.png";
+                        altText = "Troubled";
                     }
                     blockdata =
                         blockdata +
                     '<div  class="media"><img src="../../../Images/' +
                         img +
-                        '" class="align-self-start smils" alt="smile2"><div class="media-body cb-smile2"><div class="progress custom-pr"><div class="progress-bar bg-' +
+                    '" class="align-self-start smils" alt="' + altText + '"><div class="media-body cb-smile2"><div class="progress custom-pr"><div class="progress-bar bg-' +
                         color +
                         '" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:' +
                         width.toString() +
