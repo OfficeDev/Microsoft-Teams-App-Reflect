@@ -156,7 +156,7 @@ function SendAdaptiveCard() {
         postDate: "",
         isDefaultQuestion: false,
         recurssionType: $("#recurrence").val(),
-        customRecurssionTypeValue: rectype,
+        customRecursionTypeValue: rectype,
         action: "sendAdaptiveCard"
     };
     taskInfo.card = "";
@@ -312,15 +312,15 @@ function GetDefaultQuestions(userPrincipleName) {
             $("#questions").append(blockdata);
             $("#selectedTxt").html($("#questions").val());
             $(".select2-search__field").attr("maxlength", "150");
-            GetRecurssionsCount(userPrincipleName);
+            GetRecursionsCount(userPrincipleName);
         }
     });
 }
 
-function GetRecurssionsCount(userPrincipleName) {
+function GetRecursionsCount(userPrincipleName) {
     $.ajax({
         type: "GET",
-        url: "api/GetRecurssions/" + userPrincipleName,
+        url: "api/GetRecursions/" + userPrincipleName,
         success: function (data) {
             recurssions = JSON.parse(JSON.parse(data).recurssions);
             $("#recurssionscount").html("(" + recurssions.length + ")");

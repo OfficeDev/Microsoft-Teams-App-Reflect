@@ -60,19 +60,19 @@ namespace Reflection.Repositories
         }
 
         /// <summary>
-        /// Recurssion Data Table.
+        /// Recursion Data Table.
         /// </summary>
-        public static class RecurssionDataTable
+        public static class RecursionDataTable
         {
             /// <summary>
-            /// Table name for Recurssion data table.
+            /// Table name for Recursion data table.
             /// </summary>
-            public static readonly string TableName = "RecurssionData";
+            public static readonly string TableName = "RecursionData";
 
             /// <summary>
-            /// Recurssion data partition key name.
+            /// Recursion data partition key name.
             /// </summary>
-            public static readonly string RecurssionDataPartition = "RecurssionData";
+            public static readonly string RecursionDataPartition = "RecursionData";
         }
 
         /// <summary>
@@ -81,12 +81,12 @@ namespace Reflection.Repositories
         public static class FeedbackDataTable
         {
             /// <summary>
-            /// Table name for Recurssion data table.
+            /// Table name for Recursion data table.
             /// </summary>
             public static readonly string TableName = "FeedbackData";
 
             /// <summary>
-            /// Recurssion data partition key name.
+            /// Recursion data partition key name.
             /// </summary>
             public static readonly string FeedbackDataPartition = "FeedbackData";
         }

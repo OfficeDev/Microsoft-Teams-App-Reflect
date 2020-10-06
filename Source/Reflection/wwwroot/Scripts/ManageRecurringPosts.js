@@ -46,7 +46,7 @@ $(document).ready(function () {
             head.appendChild(link);
         }
     });
-    getRecurssions();
+    getRecursions();
 });
 
 $("tbody#tablebody").on("click", "td.date-day", function () {
@@ -69,11 +69,11 @@ $(".date-ip").on("change", function () {
     );
 }).trigger("change");
 
-function getRecurssions() {
+function getRecursions() {
     let email = $("#contextemail").val();
     $.ajax({
         type: 'GET',
-        url: '/api/GetRecurssions/' + email,
+        url: '/api/GetRecursions/' + email,
         success: function (data) {
             $(".spinner").hide();
             $(".mf-manage").show();
@@ -116,20 +116,20 @@ function getRecurssions() {
                         }
                     }
                 }
-                if (x.RecurssionType === "Daily") {
+                if (x.RecursionType === "Daily") {
                     sendpostat = "Every 1 Day at " + timehours + ":" + timeminutes + mode + " starting from " + new Date(x.ExecutionDate).toLocaleDateString();
                 }
-                else if (x.RecurssionType === "Monthly") {
+                else if (x.RecursionType === "Monthly") {
                     sendpostat = "Every Month " + new Date(x.ExecutionDate).getDate() + " at " + timehours + ":" + timeminutes + mode + " starting from " + new Date(x.ExecutionDate).toLocaleDateString();
                 }
-                else if (x.RecurssionType === "Weekly") {
+                else if (x.RecursionType === "Weekly") {
                     sendpostat = "Every Week " + weeks[new Date(x.ExecutionDate).getDay()] + " at " + timehours + ":" + timeminutes + mode + " starting from " + new Date(x.ExecutionDate).toLocaleDateString();
                 }
-                else if (x.RecurssionType === "Every weekday") {
+                else if (x.RecursionType === "Every weekday") {
                     sendpostat = "Every Week Day " + " at " + timehours + ":" + timeminutes + mode + " starting from " + new Date(x.ExecutionDate).toLocaleDateString();
                 }
-                else if (x.RecurssionType === "Custom") {
-                    sendpostat = (new DOMParser).parseFromString(x.CustomRecurssionTypeValue, "text/html").
+                else if (x.RecursionType === "Custom") {
+                    sendpostat = (new DOMParser).parseFromString(x.CustomRecursionTypeValue, "text/html").
                         documentElement.textContent + " at " + timehours + ":" + timeminutes + mode;
                 }
                 blockdata = blockdata + '<tr id="row1"><td class="hw-r-u">' + x.Question + '<div class="hru-desc">Created by: ' + x.CreatedBy + ' on ' + new Date(x.RefCreatedDate).toDateString() + '</div></td><td class="privacy-cl">' + x.Privacy + '</td> <td class="date-day">' + sendpostat + '</td><td class="edit-icon" id="edit' + x.RefID + '"></td><td class="delete-icon" id="deleteIcon' + x.RefID + '" data-toggle="modal" data-target="#myalert"></td></tr>';
@@ -184,21 +184,21 @@ function getRecurssions() {
                         }
                     }
                     currentrecurrsion.time = timehours + ":" + timeminutes + mode;
-                    if (x.RecurssionType === "Daily") {
+                    if (x.RecursionType === "Daily") {
                         sendpostat = "Every Day at " + timehours + ":" + timeminutes + mode + " starting from " + new Date(x.ExecutionDate).toLocaleDateString();
                         $("#dwm").val("day");
                         $("#customnumber").html("1");
                         $("#customtype").html("day");
                         $("#dwm").trigger("change");
                     }
-                    else if (x.RecurssionType === "Monthly") {
+                    else if (x.RecursionType === "Monthly") {
                         sendpostat = "Every Month " + new Date(x.ExecutionDate).getDate() + " at " + timehours + ":" + timeminutes + mode + " starting from " + new Date(x.ExecutionDate).toLocaleDateString();
                         $("#dwm").val("month");
                         $("#customnumber").html("1");
                         $("#customtype").html("month");
                         $("#dwm").trigger("change");
                     }
-                    else if (x.RecurssionType === "Weekly") {
+                    else if (x.RecursionType === "Weekly") {
                         sendpostat = "Every Week " + weeks[new Date(x.ExecutionDate).getDay()] + " at " + timehours + ":" + timeminutes + mode + " starting from " + new Date(x.ExecutionDate).toLocaleDateString();
                         $(".weekselect").removeClass("selectedweek");
                         $("#dwm").val("week");
@@ -207,7 +207,7 @@ function getRecurssions() {
                         $("#customtype").html("week");
                         $("#dwm").trigger("change");
                     }
-                    else if (x.RecurssionType === "Every weekday") {
+                    else if (x.RecursionType === "Every weekday") {
                         sendpostat = "Every Week Day " + " at " + timehours + ":" + timeminutes + mode + " starting from " + new Date(x.ExecutionDate).toLocaleDateString();
                         $("#dwm").val("week");
                         $(".weekselect").addClass("selectedweek");
@@ -216,11 +216,11 @@ function getRecurssions() {
                         $("#customtype").html("week day");
                         $("#dwm").trigger("change");
                     }
-                    else if (x.RecurssionType === "Custom") {
-                        sendpostat = (new DOMParser).parseFromString(x.CustomRecurssionTypeValue, "text/html").
+                    else if (x.RecursionType === "Custom") {
+                        sendpostat = (new DOMParser).parseFromString(x.CustomRecursionTypeValue, "text/html").
                             documentElement.textContent + " at " + timehours + ":" + timeminutes + mode;
                         div = document.createElement('div');
-                        $(div).html(x.CustomRecurssionTypeValue);
+                        $(div).html(x.CustomRecursionTypeValue);
                         var type = $(div).find("#customtype").html().split('(')[0];
                         $("#dwm").val(type);
                         $("#number").val($(div).find("#customnumber").html());
@@ -265,7 +265,7 @@ function getRecurssions() {
 
 }
 
-function deleteRecurssion() {
+function deleteRecursion() {
     $("#deleteIcon").hide();
     $(".spinner").show();
     $.ajax({
@@ -274,7 +274,7 @@ function deleteRecurssion() {
         success: function (data) {
             if (data === "Deleted") {
                 $("#tablebody").html("");
-                getRecurssions();
+                getRecursions();
             }
 
         }
@@ -283,7 +283,7 @@ function deleteRecurssion() {
 
 
 
-function saveRecurssion() {
+function saveRecursion() {
     let rectype = "";
         if ($("#dwm").val() === "month") {
             if ($("input[name='days-check']:checked").val() === "days") {
@@ -299,18 +299,18 @@ function saveRecurssion() {
     nextexecutiondate = combineDateAndTime(currentrecurrsion.ExecutionDate, currentrecurrsion.time);
     $.ajax({
         type: 'POST',
-        url: '/api/SaveRecurssionData',
+        url: '/api/SaveRecursionData',
         headers: {
             "Content-Type": "application/json"
         },
         data: JSON.stringify({
-            "refID": editid, "recurssionType": "Custom", customRecurssionTypeValue: rectype, nextExecutionDate: nextexecutiondate
+            "refID": editid, "recurssionType": "Custom", customRecursionTypeValue: rectype, nextExecutionDate: nextexecutiondate
         }),
         success: function (data) {
             if (data === "true") {
                 $("#tablebody").html("");
                 $("#edit").hide();
-                getRecurssions();
+                getRecursions();
             }
         }
     });
@@ -440,7 +440,7 @@ $("#recurrance").on("change", function () {
     }
 });
 
-function cancelRecurssion() {
+function cancelRecursion() {
     $("#edit").hide();
     $("#managetable").show();
 }

@@ -1,10 +1,10 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="RecurssionDataRepository.cs" company="Microsoft">
+// <copyright file="RecursionDataRepository.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Reflection.Repositories.RecurssionData
+namespace Reflection.Repositories.RecursionData
 {
     using System;
     using System.Collections.Generic;
@@ -14,41 +14,41 @@ namespace Reflection.Repositories.RecurssionData
     using Microsoft.Extensions.Configuration;
 
     /// <summary>
-    /// RecurssionData Repository.
+    /// RecursionData Repository.
     /// </summary>
-    public class RecurssionDataRepository : BaseRepository<RecurssionDataEntity>
+    public class RecursionDataRepository : BaseRepository<RecursionDataEntity>
     {
         private TelemetryClient _telemetry;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecurssionDataRepository"/> class.
+        /// Initializes a new instance of the <see cref="RecursionDataRepository"/> class.
         /// </summary>
         /// <param name="configuration">Represents the application configuration.</param>
         /// <param name="telemetry">telemetry.</param>
         /// <param name="isFromAzureFunction">Flag to show if created from Azure Function.</param>
-        public RecurssionDataRepository(IConfiguration configuration, TelemetryClient telemetry, bool isFromAzureFunction = false)
+        public RecursionDataRepository(IConfiguration configuration, TelemetryClient telemetry, bool isFromAzureFunction = false)
             : base(
                 configuration,
-                PartitionKeyNames.RecurssionDataTable.TableName,
-                PartitionKeyNames.RecurssionDataTable.RecurssionDataPartition,
+                PartitionKeyNames.RecursionDataTable.TableName,
+                PartitionKeyNames.RecursionDataTable.RecursionDataPartition,
                 isFromAzureFunction)
         {
             _telemetry = telemetry;
         }
 
         /// <summary>
-        /// Get All Recurssion Data.
+        /// Get All Recursion Data.
         /// </summary>
         /// <param name="refIds">refIds.</param>
-        /// <returns>RecurssionDataEntity.</returns>
-        public async Task<List<RecurssionDataEntity>> GetAllRecurssionData(List<Guid?> refIds)
+        /// <returns>RecursionDataEntity.</returns>
+        public async Task<List<RecursionDataEntity>> GetAllRecursionData(List<Guid?> refIds)
         {
-            _telemetry.TrackEvent("GetAllRecurssionData");
+            _telemetry.TrackEvent("GetAllRecursionData");
 
             try
             {
-                var allRows = await this.GetAllAsync(PartitionKeyNames.RecurssionDataTable.TableName);
-                List<RecurssionDataEntity> result = allRows.Where(c => refIds.Contains(c.ReflectionID) && c.RecursstionType != "Does not repeat").ToList();
+                var allRows = await this.GetAllAsync(PartitionKeyNames.RecursionDataTable.TableName);
+                List<RecursionDataEntity> result = allRows.Where(c => refIds.Contains(c.ReflectionID) && c.RecursstionType != "Does not repeat").ToList();
                 return result;
             }
             catch (Exception ex)
@@ -59,17 +59,17 @@ namespace Reflection.Repositories.RecurssionData
         }
 
         /// <summary>
-        /// Get Recurssion Data.
+        /// Get Recursion Data.
         /// </summary>
         /// <param name="recurssionId">recurssionId.</param>
-        /// <returns>RecurssionDataEntity.</returns>
-        public async Task<RecurssionDataEntity> GetRecurssionData(Guid? recurssionId)
+        /// <returns>RecursionDataEntity.</returns>
+        public async Task<RecursionDataEntity> GetRecursionData(Guid? recurssionId)
         {
-            _telemetry.TrackEvent("GetRecurssionData");
+            _telemetry.TrackEvent("GetRecursionData");
             try
             {
-                var allRows = await this.GetAllAsync(PartitionKeyNames.RecurssionDataTable.TableName);
-                RecurssionDataEntity result = allRows.Where(c => c.RecurssionID == recurssionId).FirstOrDefault();
+                var allRows = await this.GetAllAsync(PartitionKeyNames.RecursionDataTable.TableName);
+                RecursionDataEntity result = allRows.Where(c => c.RecursionID == recurssionId).FirstOrDefault();
                 return result;
             }
             catch (Exception ex)
@@ -80,18 +80,18 @@ namespace Reflection.Repositories.RecurssionData
         }
 
         /// <summary>
-        /// Get All Recurssion Data.
+        /// Get All Recursion Data.
         /// </summary>
-        /// <returns>RecurssionDataEntity.</returns>
-        public async Task<List<RecurssionDataEntity>> GetAllRecurssionData()
+        /// <returns>RecursionDataEntity.</returns>
+        public async Task<List<RecursionDataEntity>> GetAllRecursionData()
         {
             DateTime dateTime = DateTime.UtcNow;
             dateTime = dateTime.AddSeconds(-dateTime.Second);
             dateTime = dateTime.AddMilliseconds(-dateTime.Millisecond);
-            _telemetry.TrackEvent("GetAllRecurssionData");
+            _telemetry.TrackEvent("GetAllRecursionData");
             try
             {
-                var recurssionData = await this.GetAllAsync(PartitionKeyNames.RecurssionDataTable.TableName);
+                var recurssionData = await this.GetAllAsync(PartitionKeyNames.RecursionDataTable.TableName);
                 var recData = recurssionData.Where(c => c.NextExecutionDate != null).ToList();
                 var intervalRecords = recData.Where(r => dateTime.Subtract((DateTime)r.NextExecutionDate).TotalSeconds < 60 && dateTime.Subtract((DateTime)r.NextExecutionDate).TotalSeconds > 0).ToList();
                 return intervalRecords;

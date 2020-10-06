@@ -26,7 +26,7 @@ namespace Reflection.Helper
     using Reflection.Repositories;
     using Reflection.Repositories.FeedbackData;
     using Reflection.Repositories.QuestionsData;
-    using Reflection.Repositories.RecurssionData;
+    using Reflection.Repositories.RecursionData;
     using Reflection.Repositories.ReflectionData;
 
     /// <summary>
@@ -111,7 +111,7 @@ namespace Reflection.Helper
 
                     if (!(taskInfo.postSendNowFlag == true))
                     {
-                        await SaveRecurssionDataAsync(taskInfo);
+                        await SaveRecursionDataAsync(taskInfo);
                     }
                 }
             }
@@ -211,27 +211,27 @@ namespace Reflection.Helper
         /// </summary>
         /// <param name="taskInfo">This parameter is a ViewModel.</param>
         /// <returns>Null.</returns>
-        public async Task SaveRecurssionDataAsync(TaskInfo taskInfo)
+        public async Task SaveRecursionDataAsync(TaskInfo taskInfo)
         {
-            _telemetry.TrackEvent("SaveRecurssionDataAsync");
+            _telemetry.TrackEvent("SaveRecursionDataAsync");
             try
             {
-                RecurssionDataRepository recurssionDataRepository = new RecurssionDataRepository(_configuration, _telemetry);
+                RecursionDataRepository recurssionDataRepository = new RecursionDataRepository(_configuration, _telemetry);
 
-                RecurssionDataEntity recurssionEntity = new RecurssionDataEntity
+                RecursionDataEntity recurssionEntity = new RecursionDataEntity
                 {
-                    RecurssionID = taskInfo.recurssionID,
-                    PartitionKey = PartitionKeyNames.RecurssionDataTable.RecurssionDataPartition,
+                    RecursionID = taskInfo.recurssionID,
+                    PartitionKey = PartitionKeyNames.RecursionDataTable.RecursionDataPartition,
                     RowKey = taskInfo.recurrsionRowKey,
                     ReflectionRowKey = taskInfo.reflectionRowKey,
                     QuestionRowKey = taskInfo.questionRowKey,
                     ReflectionID = taskInfo.reflectionID,
                     RecursstionType = taskInfo.recurssionType,
-                    CustomRecurssionTypeValue = taskInfo.customRecurssionTypeValue,
+                    CustomRecursionTypeValue = taskInfo.customRecursionTypeValue,
                     CreatedDate = DateTime.Now,
                     ExecutionDate = taskInfo.executionDate,
                     ExecutionTime = taskInfo.executionTime,
-                    RecurssionEndDate = taskInfo.executionDate.AddDays(60),
+                    RecursionEndDate = taskInfo.executionDate.AddDays(60),
                     NextExecutionDate = taskInfo.nextExecutionDate,
                     ScheduleId=taskInfo.scheduleId
                 };
@@ -279,43 +279,43 @@ namespace Reflection.Helper
         /// </summary>
         /// <param name="recurssionEntity">recurssionEntity.</param>
         /// <returns>Calculated next execution date time.</returns>
-        public DateTime? GetCalculatedNextExecutionDateTimeAsync(RecurssionDataEntity recurssionEntity)
+        public DateTime? GetCalculatedNextExecutionDateTimeAsync(RecursionDataEntity recurssionEntity)
         {
-            _telemetry.TrackEvent("UpdateRecurssionDataNextExecutionDateTimeAsync");
+            _telemetry.TrackEvent("UpdateRecursionDataNextExecutionDateTimeAsync");
             DateTime? calculatedNextExecutionDate = null;
             try
             {
                 DateTime nextExecutionDate = Convert.ToDateTime(recurssionEntity.NextExecutionDate);
-                RecurssionDataRepository recurssionDataRepository = new RecurssionDataRepository(_configuration, _telemetry);
+                RecursionDataRepository recurssionDataRepository = new RecursionDataRepository(_configuration, _telemetry);
 
                 switch (recurssionEntity.RecursstionType.ToLower().Trim())
                 {
                     case "daily":
                         DateTime? nextExecutionDay = DateTime.Now.AddDays(1);
-                        calculatedNextExecutionDate = recurssionEntity.RecurssionEndDate >= nextExecutionDay ? nextExecutionDay : null;
+                        calculatedNextExecutionDate = recurssionEntity.RecursionEndDate >= nextExecutionDay ? nextExecutionDay : null;
                         break;
                     case "every weekday":
                         DateTime? nextWeekDay = GetNextWeekday();
-                        calculatedNextExecutionDate = recurssionEntity.RecurssionEndDate >= nextWeekDay ? nextWeekDay : null;
+                        calculatedNextExecutionDate = recurssionEntity.RecursionEndDate >= nextWeekDay ? nextWeekDay : null;
                         break;
                     case "weekly":
                         DateTime? nextWeeklyday = GetNextWeeklyday(nextExecutionDate.DayOfWeek);
-                        calculatedNextExecutionDate = recurssionEntity.RecurssionEndDate >= nextWeeklyday ? nextWeeklyday : null;
+                        calculatedNextExecutionDate = recurssionEntity.RecursionEndDate >= nextWeeklyday ? nextWeeklyday : null;
                         break;
                     case "monthly":
                         DateTime? nextMonthlyday = nextExecutionDate.AddMonths(1);
-                        calculatedNextExecutionDate = recurssionEntity.RecurssionEndDate >= nextMonthlyday ? nextMonthlyday : null;
+                        calculatedNextExecutionDate = recurssionEntity.RecursionEndDate >= nextMonthlyday ? nextMonthlyday : null;
                         break;
                     case "does not repeat":
                         calculatedNextExecutionDate = null;
                         break;
                     case "custom":
-                        if (recurssionEntity.CustomRecurssionTypeValue.Contains("week"))
+                        if (recurssionEntity.CustomRecursionTypeValue.Contains("week"))
                         {
                             var selectedweeks = new List<string>();
                             weekdays.ForEach(x =>
                             {
-                                if (recurssionEntity.CustomRecurssionTypeValue.Contains(x))
+                                if (recurssionEntity.CustomRecursionTypeValue.Contains(x))
                                 {
                                     selectedweeks.Add(x);
                                 }
@@ -335,16 +335,16 @@ namespace Reflection.Helper
                                 {
                                     int addDays = weekdays.IndexOf(selectedweeks[weekindex + 1]) - weekdays.IndexOf(selectedweeks[weekindex]);
                                     DateTime? nextcustomweeklyday = DateTime.Now.AddDays(addDays);
-                                    calculatedNextExecutionDate = recurssionEntity.RecurssionEndDate >= nextcustomweeklyday ? nextcustomweeklyday : null;
+                                    calculatedNextExecutionDate = recurssionEntity.RecursionEndDate >= nextcustomweeklyday ? nextcustomweeklyday : null;
                                 }
                             }
 
                             break;
                         }
 
-                        if (recurssionEntity.CustomRecurssionTypeValue.Contains("month"))
+                        if (recurssionEntity.CustomRecursionTypeValue.Contains("month"))
                         {
-                            if (recurssionEntity.CustomRecurssionTypeValue.Contains("Day"))
+                            if (recurssionEntity.CustomRecursionTypeValue.Contains("Day"))
                             {
                                 goto case "monthly";
                             }
@@ -356,7 +356,7 @@ namespace Reflection.Helper
                         else
                         {
                             DateTime? nextcustomdailyday = DateTime.Now.AddDays(1);
-                            calculatedNextExecutionDate = recurssionEntity.RecurssionEndDate >= nextcustomdailyday ? nextcustomdailyday : null;
+                            calculatedNextExecutionDate = recurssionEntity.RecursionEndDate >= nextcustomdailyday ? nextcustomdailyday : null;
                             break;
                         }
 
@@ -470,24 +470,24 @@ namespace Reflection.Helper
         /// Get the data from the Recurrence able storage based on the email id.
         /// </summary>
         /// <param name="email">email id of the creator of the reflection.</param>
-        /// <returns>RecurssionScreenData model.</returns>
-        public async Task<List<RecurssionScreenData>> GetRecurrencePostsDataAsync(string email)
+        /// <returns>RecursionScreenData model.</returns>
+        public async Task<List<RecursionScreenData>> GetRecurrencePostsDataAsync(string email)
         {
             _telemetry.TrackEvent("GetRecurrencePostsDataAsync");
             try
             {
                 ReflectionDataRepository reflectionDataRepository = new ReflectionDataRepository(_configuration, _telemetry);
                 QuestionsDataRepository questionsDataRepository = new QuestionsDataRepository(_configuration, _telemetry);
-                RecurssionDataRepository recurssionDataRepository = new RecurssionDataRepository(_configuration, _telemetry);
+                RecursionDataRepository recurssionDataRepository = new RecursionDataRepository(_configuration, _telemetry);
                 List<ReflectionDataEntity> allActiveRefs = await reflectionDataRepository.GetAllActiveReflection(email);
                 List<Guid?> allActiveRefIDs = allActiveRefs.Select(c => c.ReflectionID).ToList();
                 List<Guid?> allActiveQuestionIDs = allActiveRefs.Select(c => c.QuestionID).ToList();
                 List<QuestionsDataEntity> allQuestionsData = await questionsDataRepository.GetAllQuestionData(allActiveQuestionIDs);
-                List<RecurssionDataEntity> allRecurssionData = await recurssionDataRepository.GetAllRecurssionData(allActiveRefIDs);
-                List<RecurssionScreenData> screenData = new List<RecurssionScreenData>();
-                foreach (var rec in allRecurssionData)
+                List<RecursionDataEntity> allRecursionData = await recurssionDataRepository.GetAllRecursionData(allActiveRefIDs);
+                List<RecursionScreenData> screenData = new List<RecursionScreenData>();
+                foreach (var rec in allRecursionData)
                 {
-                    RecurssionScreenData recurssionScreenData = new RecurssionScreenData();
+                    RecursionScreenData recurssionScreenData = new RecursionScreenData();
                     recurssionScreenData.RefID = rec.ReflectionID;
                     var reflection = await reflectionDataRepository.GetReflectionData(rec.ReflectionID);
                     recurssionScreenData.CreatedBy = reflection.CreatedBy;
@@ -497,10 +497,10 @@ namespace Reflection.Helper
                     recurssionScreenData.ExecutionDate = rec.ExecutionDate;
                     recurssionScreenData.ExecutionTime = rec.ExecutionTime;
                     recurssionScreenData.NextExecutionDate = rec.NextExecutionDate;
-                    recurssionScreenData.RecurssionType = rec.RecursstionType;
-                    recurssionScreenData.CustomRecurssionTypeValue = rec.CustomRecurssionTypeValue;
+                    recurssionScreenData.RecursionType = rec.RecursstionType;
+                    recurssionScreenData.CustomRecursionTypeValue = rec.CustomRecursionTypeValue;
                     recurssionScreenData.ScheduleId = rec.ScheduleId;
-                    if (recurssionScreenData.RecurssionType != null && recurssionScreenData.NextExecutionDate!=null)
+                    if (recurssionScreenData.RecursionType != null && recurssionScreenData.NextExecutionDate!=null)
                         screenData.Add(recurssionScreenData);
                 }
 
@@ -524,9 +524,9 @@ namespace Reflection.Helper
             {
                 _telemetry.TrackEvent("DeleteRecurrsionDataAsync");
                 ReflectionDataRepository reflectionDataRepository = new ReflectionDataRepository(_configuration, _telemetry);
-                RecurssionDataRepository recurssionDataRepository = new RecurssionDataRepository(_configuration, _telemetry);
+                RecursionDataRepository recurssionDataRepository = new RecursionDataRepository(_configuration, _telemetry);
                 var reflection = await reflectionDataRepository.GetReflectionData(reflectionId);
-                var recurssion = await recurssionDataRepository.GetRecurssionData(reflection.RecurrsionID);
+                var recurssion = await recurssionDataRepository.GetRecursionData(reflection.RecurrsionID);
                 await recurssionDataRepository.DeleteAsync(recurssion);
                 await reflectionDataRepository.DeleteAsync(reflection);
             }
@@ -570,17 +570,17 @@ namespace Reflection.Helper
         /// </summary>
         /// <param name="reflection">reflection.</param>
         /// <returns>.</returns>
-        public async Task SaveEditRecurssionDataAsync(RecurssionScreenData reflection)
+        public async Task SaveEditRecursionDataAsync(RecursionScreenData reflection)
         {
             try
             {
-                _telemetry.TrackEvent("SaveEditRecurssionDataAsync");
+                _telemetry.TrackEvent("SaveEditRecursionDataAsync");
                 ReflectionDataRepository reflectionDataRepository = new ReflectionDataRepository(_configuration, _telemetry);
-                RecurssionDataRepository recurssionDataRepository = new RecurssionDataRepository(_configuration, _telemetry);
+                RecursionDataRepository recurssionDataRepository = new RecursionDataRepository(_configuration, _telemetry);
                 var reflectiondata = await reflectionDataRepository.GetReflectionData(reflection.RefID);
-                var recurssion = await recurssionDataRepository.GetRecurssionData(reflectiondata.RecurrsionID);
+                var recurssion = await recurssionDataRepository.GetRecursionData(reflectiondata.RecurrsionID);
                 ReflectionDataEntity reflectionDataEntity = new ReflectionDataEntity();
-                RecurssionDataEntity recurssionDataEntity = new RecurssionDataEntity();
+                RecursionDataEntity recurssionDataEntity = new RecursionDataEntity();
                 var reflectionid = Guid.NewGuid();
                 var recurrsionid = Guid.NewGuid();
                 reflectionDataEntity = reflectiondata;
@@ -592,9 +592,9 @@ namespace Reflection.Helper
                 recurssionDataEntity = recurssion;
                 recurssionDataEntity.ReflectionID = reflectionid;
                 recurssionDataEntity.CreatedDate = DateTime.Now;
-                recurssionDataEntity.RecurssionID = recurrsionid;
-                recurssionDataEntity.RecursstionType = reflection.RecurssionType;
-                recurssionDataEntity.CustomRecurssionTypeValue = reflection.CustomRecurssionTypeValue;
+                recurssionDataEntity.RecursionID = recurrsionid;
+                recurssionDataEntity.RecursstionType = reflection.RecursionType;
+                recurssionDataEntity.CustomRecursionTypeValue = reflection.CustomRecursionTypeValue;
                 recurssionDataEntity.RowKey = Guid.NewGuid().ToString();
                 recurssionDataEntity.NextExecutionDate = reflection.NextExecutionDate;
                 await recurssionDataRepository.CreateAsync(recurssionDataEntity);

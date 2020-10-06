@@ -11,7 +11,7 @@ namespace Reflection.Interfaces
     using System.Threading.Tasks;
     using Microsoft.Bot.Builder;
     using Reflection.Model;
-    using Reflection.Repositories.RecurssionData;
+    using Reflection.Repositories.RecursionData;
     using Reflection.Repositories.ReflectionData;
 
     /// <summary>
@@ -25,19 +25,19 @@ namespace Reflection.Interfaces
 
         Task SaveDefaultQuestionsDataAsync();
 
-        Task SaveRecurssionDataAsync(TaskInfo taskInfo);
+        Task SaveRecursionDataAsync(TaskInfo taskInfo);
 
         Task SaveReflectionFeedbackDataAsync(UserfeedbackInfo taskInfo);
 
-        Task SaveEditRecurssionDataAsync(RecurssionScreenData reflection);
+        Task SaveEditRecursionDataAsync(RecursionScreenData reflection);
 
         Task<ViewReflectionsEntity> GetViewReflectionsData(Guid reflectionId);
 
-        Task<List<RecurssionScreenData>> GetRecurrencePostsDataAsync(string email);
+        Task<List<RecursionScreenData>> GetRecurrencePostsDataAsync(string email);
 
         Task UpdateReflectionMessageIdAsync(ReflectionDataEntity reflectionDataEntity);
 
-        DateTime? GetCalculatedNextExecutionDateTimeAsync(RecurssionDataEntity recurssionEntity);
+        DateTime? GetCalculatedNextExecutionDateTimeAsync(RecursionDataEntity recurssionEntity);
 
         Task DeleteRecurrsionDataAsync(Guid reflectionId);
 
