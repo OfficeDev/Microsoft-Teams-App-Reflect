@@ -1,0 +1,137 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "WebAppService": {
+      "defaultValue": "",
+      "minLength": 1,
+      "type": "String"
+    },
+    "BotID": {
+      "defaultValue": "",
+      "type": "String",
+      "metadata": {
+        "description": "The client ID of the bot Azure AD app, e.g., 123e4567-e89b-12d3-a456-426655440000."
+      }
+    },
+    "botClientSecret": {
+      "type": "SecureString",
+      "metadata": {
+        "description": "The client secret of the bot Azure AD app."
+      }
+    }
+  },
+  "variables": {
+    "gitRepoUrl": "https://github.com/OfficeDev/Microsoft-Teams-App-Reflect.git",
+    "gitBranch": "main",
+    "StorageAccountName": "[take(concat(take(toLower(replace(parameters('WebAppService'), '-', '')), 16), 'sa', uniqueString(subscription().subscriptionId, resourceGroup().id, 'sa')), 24)]",
+    "botServicesname": "[concat(take(toLower(parameters('WebAppService')), 16), '-bsn-', uniqueString(subscription().subscriptionId, resourceGroup().id, 'bsn'))]",
+    "AppServicePlan": "[concat(take(toLower(parameters('WebAppService')), 16), '-asp-', uniqueString(subscription().subscriptionId, resourceGroup().id, 'asp'))]"
+  },
+  "resources": [
+    {
+      "name": "[variables('AppServicePlan')]",
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2014-06-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "ARMAppserviceplan"
+      },
+      "properties": {
+        "name": "[variables('AppServicePlan')]",
+        "numberOfWorkers": 1
+      }
+    },
+    {
+      "name": "[variables('StorageAccountName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "ARMReflectStorage"
+      },
+      "properties": {
+        "accountType": "Standard_LRS"
+      }
+    },
+    {
+      "type": "Microsoft.BotService/botServices",
+      "apiVersion": "2018-07-12",
+      "name": "[variables('botServicesname')]",
+      "location": "global",
+      "sku": {
+        "name": "F0"
+      },
+      "kind": "sdk",
+      "properties": {
+        "displayName": "Reflect",
+        "iconUrl": "[concat('//bot-framework.azureedge.net/bot-icons-v1/', variables('botServicesname'), '_27F2GKC8M3FF9qdGhG3yIG6e4VCF42SiBi8DO3Aj7BwUCqx.png')]",
+        "msaAppId": "[parameters('BotID')]",
+        "luisAppIds": [],
+        "endpoint": "[concat('https://',parameters('WebAppService'),'.azurewebsites.net/api/messages')]",
+        "appSettings": [
+          {
+            "name": "MicrosoftAppPassword",
+            "value": "[parameters('botClientSecret')]"
+          }
+        ]
+      }
+    },
+    {
+      "name": "[parameters('WebAppService')]",
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2015-08-01",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Web/serverfarms/', variables('AppServicePlan'))]"
+      ],
+      "tags": {
+        "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', variables('AppServicePlan'))]": "Resource",
+        "displayName": "ReflectARM"
+      },
+      "properties": {
+        "name": "[parameters('WebAppService')]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', variables('AppServicePlan'))]"
+      },
+      "resources": [
+        {
+          "type": "sourcecontrols",
+          "apiVersion": "2016-08-01",
+          "name": "web",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('WebAppService'))]"
+          ],
+          "properties": {
+            "RepoUrl": "[variables('gitRepoUrl')]",
+            "branch": "[variables('gitBranch')]",
+            "IsManualIntegration": true
+          },
+          "condition": "[not(empty(variables('gitRepoUrl')))]"
+        },
+        {
+          "type": "config",
+          "apiVersion": "2019-08-01",
+          "name": "appsettings",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('WebAppService'))]"
+          ],
+          "properties": {
+            "webSiteName": "[parameters('WebAppService')]",
+            "storageAccountName": "[variables('StorageAccountName')]",
+            "StorageAccountConnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';EndpointSuffix=', environment().suffixes.storage, ';AccountKey=',listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-06-01').keys[0].value)]",
+            "ReflectionPartitionKey": "ReflectionDataEntity",
+            "RecurssionPartitionKey": "RecurssionData",
+            "QuestionPartitionKey": "QuestionsData",
+            "ResourceGroupName": "[resourceGroup().name]",
+            "SubscriptionId": "[subscription().subscriptionId]",
+            "MicrosoftAppId": "[parameters('BotID')]",
+            "MicrosoftAppPassword": "[parameters('botClientSecret')]",
+            "BaseUri": "[concat('https://',parameters('WebAppService'),'.azurewebsites.net')]"
+          }
+        }
+      ]
+    }
+  ]
+}
