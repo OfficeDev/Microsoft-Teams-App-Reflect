@@ -1,5 +1,15 @@
 # Microsoft Reflect messaging extension for Teams overview
 
+### UPDATE: ###
+Due to the strong interest  in the Reflect project, we are excited to announce that the Reflect feature is being incorporated into upcoming updates to both the Workplace Analytics solution for our commercial customers and into the Class Insights solution offered to our education customers. As part of these fully-hosted, production-level solutions Reflect will be easier than ever to enable for your organization and easier for your tenant users to access the feature in Teams. They will also offer many of the feature requests made here by the community, including requests for localization and additional reporting features. 
+
+**With the introduction of these production-level offerings that include the Reflect capability, we are archiving this open source project and invite anyone interested in the Reflect functionality to check out either (or both) of these solutions. Thank you for your interest and contributions to this project.**
+
+You can read more about the Workplace Analytics update at: [Introducing insights in Teams to power wellbeing and productivity - Microsoft Tech Community](https://techcommunity.microsoft.com/t5/workplace-analytics-myanalytics/introducing-insights-in-teams-to-power-wellbeing-and/ba-p/1675767). The update to the Class Insights solution is coming in Spring 2021. 
+
+
+### Overview ###
+
 | [Documentation](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki) | [Deployment Guide](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Reflect-Deployment-Guide) | [Solution Overview](https://github.com/OfficeDev/Microsoft-Teams-App-Reflect/wiki/Architecture-&-Solution-Overview) |
 | ----------- | ----------- | ----------- |
 
