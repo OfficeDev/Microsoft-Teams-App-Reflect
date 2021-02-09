@@ -166,12 +166,12 @@ namespace Microsoft.Teams.Apps.Reflect.Web.Controllers
         /// </summary>
         /// <param name="email">email.</param>
         /// <returns>View.</returns>
-        [Route("api/GetRecurssions/{email}")]
-        public async Task<string> GetRecurssions(string email)
+        [Route("api/GetRecursions/{email}")]
+        public async Task<string> GetRecursions(string email)
         {
             try
             {
-                _telemetry.TrackEvent("GetRecurssions");
+                _telemetry.TrackEvent("GetRecursions");
                 var data = await _dbHelper.GetRecurrencePostsDataAsync(email);
                 var jsondata = new JObject();
                 jsondata["recurssions"] = JsonConvert.SerializeObject(data);
@@ -248,18 +248,18 @@ namespace Microsoft.Teams.Apps.Reflect.Web.Controllers
         /// <param name="data">data.</param>
         /// <returns>Boolean.</returns>
         [HttpPost]
-        [Route("api/SaveRecurssionData")]
-        public async Task<string> SaveRecurssionData([FromBody]RecurssionScreenData data)
+        [Route("api/SaveRecursionData")]
+        public async Task<string> SaveRecursionData([FromBody]RecursionScreenData data)
         {
             try
             {
-                _telemetry.TrackEvent("SaveRecurssionData");
-                await _dbHelper.SaveEditRecurssionDataAsync(data);
+                _telemetry.TrackEvent("SaveRecursionData");
+                await _dbHelper.SaveEditRecursionDataAsync(data);
                 return "true";
             }
             catch (Exception e)
             {
-                _telemetry.TrackEvent("SaveRecurssionData Exception " + e);
+                _telemetry.TrackEvent("SaveRecursionData Exception " + e);
                 return "false";
             }
         }

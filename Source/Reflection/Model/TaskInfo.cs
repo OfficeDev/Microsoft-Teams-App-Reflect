@@ -73,9 +73,9 @@ namespace Reflection.Model
         public string recurssionType { get; set; }
 
         /// <summary>
-        /// Gets or sets customRecurssionTypeValue.
+        /// Gets or sets customRecursionTypeValue.
         /// </summary>
-        public string customRecurssionTypeValue { get; set; }
+        public string customRecursionTypeValue { get; set; }
 
         /// <summary>
         /// Gets or sets IsActive.

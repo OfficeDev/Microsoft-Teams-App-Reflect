@@ -20,7 +20,7 @@ namespace Reflection.Helper
     using Reflection.Model;
     using Reflection.Repositories.FeedbackData;
     using Reflection.Repositories.QuestionsData;
-    using Reflection.Repositories.RecurssionData;
+    using Reflection.Repositories.RecursionData;
     using Reflection.Repositories.ReflectionData;
 
     /// <summary>
@@ -72,12 +72,12 @@ namespace Reflection.Helper
                 ChannelAccount channelAccount = new ChannelAccount(_configuration["MicrosoftAppId"]);
                 Attachment attachment = new Attachment();
                 TeamsChannelData channelData = new TeamsChannelData() { Notification = new NotificationInfo(true) };
-                RecurssionDataRepository recurssionDataRepository = new RecurssionDataRepository(_configuration, _telemetry);
+                RecursionDataRepository recurssionDataRepository = new RecursionDataRepository(_configuration, _telemetry);
                 ReflectionDataRepository reflectionDataRepository = new ReflectionDataRepository(_configuration, _telemetry);
                 QuestionsDataRepository questiondatarepository = new QuestionsDataRepository(_configuration, _telemetry);
 
-                var recurssionData = await recurssionDataRepository.GetAllRecurssionData();
-                foreach (RecurssionDataEntity recurssionDataEntity in recurssionData)
+                var recurssionData = await recurssionDataRepository.GetAllRecursionData();
+                foreach (RecursionDataEntity recurssionDataEntity in recurssionData)
                 {
                     var reflectionData = await reflectionDataRepository.GetReflectionData(recurssionDataEntity.ReflectionID);
                     var question = await questiondatarepository.GetQuestionData(reflectionData.QuestionID);
@@ -117,7 +117,7 @@ namespace Reflection.Helper
                     if (calculatedNextExecutionDateTime != null)
                     {
                         ReflectionDataEntity newreflectionDataEntity = new ReflectionDataEntity();
-                        RecurssionDataEntity newRecurssionDataEntity = new RecurssionDataEntity();
+                        RecursionDataEntity newRecursionDataEntity = new RecursionDataEntity();
                         var reflectionid = Guid.NewGuid();
                         var recurrsionid = Guid.NewGuid();
                         newreflectionDataEntity = reflectionData;
@@ -126,13 +126,13 @@ namespace Reflection.Helper
                         newreflectionDataEntity.RefCreatedDate = DateTime.Now;
                         newreflectionDataEntity.RecurrsionID = recurrsionid;
                         await reflectionDataRepository.CreateAsync(newreflectionDataEntity);
-                        newRecurssionDataEntity = recurssionDataEntity;
-                        newRecurssionDataEntity.RowKey = Guid.NewGuid().ToString();
-                        newRecurssionDataEntity.ReflectionID = reflectionid;
-                        newRecurssionDataEntity.CreatedDate = DateTime.Now;
-                        newRecurssionDataEntity.RecurssionID = recurrsionid;
-                        newRecurssionDataEntity.NextExecutionDate = calculatedNextExecutionDateTime;
-                        await recurssionDataRepository.CreateAsync(newRecurssionDataEntity);
+                        newRecursionDataEntity = recurssionDataEntity;
+                        newRecursionDataEntity.RowKey = Guid.NewGuid().ToString();
+                        newRecursionDataEntity.ReflectionID = reflectionid;
+                        newRecursionDataEntity.CreatedDate = DateTime.Now;
+                        newRecursionDataEntity.RecursionID = recurrsionid;
+                        newRecursionDataEntity.NextExecutionDate = calculatedNextExecutionDateTime;
+                        await recurssionDataRepository.CreateAsync(newRecursionDataEntity);
                     }
 
                 }

@@ -26,7 +26,7 @@ namespace Microsoft.Teams.Apps.Reflect.Web
     using Reflection.Model;
     using Reflection.Repositories.FeedbackData;
     using Reflection.Repositories.QuestionsData;
-    using Reflection.Repositories.RecurssionData;
+    using Reflection.Repositories.RecursionData;
     using Reflection.Repositories.ReflectionData;
 
     /// <summary>
@@ -65,7 +65,7 @@ namespace Microsoft.Teams.Apps.Reflect.Web
             {
                 FeedbackDataRepository feedbackDataRepository = new FeedbackDataRepository(_configuration, _telemetry);
                 ReflectionDataRepository reflectionDataRepository = new ReflectionDataRepository(_configuration, _telemetry);
-                RecurssionDataRepository recurssionDataRepository = new RecurssionDataRepository(_configuration, _telemetry);
+                RecursionDataRepository recurssionDataRepository = new RecursionDataRepository(_configuration, _telemetry);
                 QuestionsDataRepository questiondatarepository = new QuestionsDataRepository(_configuration, _telemetry);
 
                 if (turnContext.Activity.Value != null)
@@ -230,7 +230,7 @@ namespace Microsoft.Teams.Apps.Reflect.Web
                 ReflctionData reldata = JsonConvert.DeserializeObject<ReflctionData>(taskModuleRequest.Data.ToString());
                 FeedbackDataRepository feedbackDataRepository = new FeedbackDataRepository(_configuration, _telemetry);
                 ReflectionDataRepository reflectionDataRepository = new ReflectionDataRepository(_configuration, _telemetry);
-                RecurssionDataRepository recurssionDataRepository = new RecurssionDataRepository(_configuration, _telemetry);
+                RecursionDataRepository recurssionDataRepository = new RecursionDataRepository(_configuration, _telemetry);
                 QuestionsDataRepository questiondatarepository = new QuestionsDataRepository(_configuration, _telemetry);
                 var response = new UserfeedbackInfo();
                 var name = (turnContext.Activity.From.Name).Split();

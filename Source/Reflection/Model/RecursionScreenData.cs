@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="RecurssionScreenData.cs" company="Microsoft">
+// <copyright file="RecursionScreenData.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -9,9 +9,9 @@ namespace Reflection.Model
     using System;
 
     /// <summary>
-    /// RecurssionScreenData.
+    /// RecursionScreenData.
     /// </summary>
-    public class RecurssionScreenData
+    public class RecursionScreenData
     {
         /// <summary>
         /// Gets or sets RefID.
@@ -49,14 +49,14 @@ namespace Reflection.Model
         public string ExecutionTime { get; set; }
 
         /// <summary>
-        /// Gets or sets RecurssionType.
+        /// Gets or sets RecursionType.
         /// </summary>
-        public string RecurssionType { get; set; }
+        public string RecursionType { get; set; }
 
         /// <summary>
-        /// Gets or sets CustomRecurssionTypeValue.
+        /// Gets or sets CustomRecursionTypeValue.
         /// </summary>
-        public string CustomRecurssionTypeValue { get; set; }
+        public string CustomRecursionTypeValue { get; set; }
 
         /// <summary>
         /// Gets or sets ExecutionTime.

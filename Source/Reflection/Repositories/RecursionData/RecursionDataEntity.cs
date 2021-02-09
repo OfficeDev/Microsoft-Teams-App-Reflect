@@ -1,23 +1,23 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="RecurssionDataEntity.cs" company="Microsoft">
+// <copyright file="RecursionDataEntity.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation.  All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace Reflection.Repositories.RecurssionData
+namespace Reflection.Repositories.RecursionData
 {
     using System;
     using Microsoft.Azure.Cosmos.Table;
 
     /// <summary>
-    /// RecurssionData Entity.
+    /// RecursionData Entity.
     /// </summary>
-    public class RecurssionDataEntity : TableEntity
+    public class RecursionDataEntity : TableEntity
     {
         /// <summary>
-        /// Gets or sets RecurssionID.
+        /// Gets or sets RecursionID.
         /// </summary>
-        public Guid? RecurssionID { get; set; }
+        public Guid? RecursionID { get; set; }
 
         /// <summary>
         /// Gets or sets ReflectionID.
@@ -45,9 +45,9 @@ namespace Reflection.Repositories.RecurssionData
         public string ExecutionTime { get; set; }
 
         /// <summary>
-        /// Gets or sets RecurssionEndDate.
+        /// Gets or sets RecursionEndDate.
         /// </summary>
-        public DateTime? RecurssionEndDate { get; set; }
+        public DateTime? RecursionEndDate { get; set; }
 
         /// <summary>
         /// Gets or sets NextExecutionDate.
@@ -65,9 +65,9 @@ namespace Reflection.Repositories.RecurssionData
         public string QuestionRowKey { get; set; }
 
         /// <summary>
-        /// Gets or sets CustomRecurssionTypeValue.
+        /// Gets or sets CustomRecursionTypeValue.
         /// </summary>
-        public string CustomRecurssionTypeValue { get; set; }
+        public string CustomRecursionTypeValue { get; set; }
 
         /// <summary>
         /// Gets or sets Schedule Id.
