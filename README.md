@@ -6,7 +6,7 @@
 
 As promised earlier this year, Reflect is now available to all Teams for Education customers. It is ready to use today as soon as it is added to your class team.   As a new fully-hosted, production-level solution, Reflect will be simple to enable for your organization and easier for your tenant users to access in Teams. Reflect has also benefitted greatly from your feedback. Reflect now offers localization and additional reporting features in Insights. 
 
-
+---------------
 
 ### UPDATE: ###
 *Feb 2, 2021*
@@ -17,6 +17,7 @@ Due to the strong interest  in the Reflect project, we are excited to announce t
 
 You can read more about the Workplace Analytics update at: [Introducing insights in Teams to power wellbeing and productivity - Microsoft Tech Community](https://techcommunity.microsoft.com/t5/workplace-analytics-myanalytics/introducing-insights-in-teams-to-power-wellbeing-and/ba-p/1675767). The update to the Class Insights solution is coming in Spring 2021. 
 
+---------------
 
 ### Overview ###
 
