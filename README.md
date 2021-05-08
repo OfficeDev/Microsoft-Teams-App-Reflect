@@ -1,6 +1,16 @@
 # Microsoft Reflect messaging extension for Teams overview
 
 ### UPDATE: ###
+*May 7, 2021*
+### Reflect is now part of Microsoft Teams for Education! Learn more at https://aka.ms/reflect ###
+
+As promised earlier this year, Reflect is now available to all Teams for Education customers. It is ready to use today as soon as it is added to your class team.   As a new fully-hosted, production-level solution, Reflect will be simple to enable for your organization and easier for your tenant users to access in Teams. Reflect has also benefitted greatly from your feedback. Reflect now offers localization and additional reporting features in Insights. 
+
+
+
+### UPDATE: ###
+*Feb 2, 2021*
+
 Due to the strong interest  in the Reflect project, we are excited to announce that the Reflect feature is being incorporated into upcoming updates to both the Workplace Analytics solution for our commercial customers and into the Class Insights solution offered to our education customers. As part of these fully-hosted, production-level solutions Reflect will be easier than ever to enable for your organization and easier for your tenant users to access the feature in Teams. They will also offer many of the feature requests made here by the community, including requests for localization and additional reporting features. 
 
 **With the introduction of these production-level offerings that include the Reflect capability, we are archiving this open source project and invite anyone interested in the Reflect functionality to check out either (or both) of these solutions. Thank you for your interest and contributions to this project.**
